@@ -1,0 +1,74 @@
+:root {
+
+    --defaultFg: var(--vscode-editor-foreground);
+    --defaultBg: var(--vscode-editor-background);
+
+    --borderColor: var(--vscode-input-border, var(--vscode-scrollbarSlider-background));
+
+    --gridDotColor:  var(--vscode-editorLineNumber-foreground);
+
+    --attachingLineColor: var(--vscode-badge-background);
+
+    --dimmedFg: var(--vscode-gitDecoration-ignoredResourceForeground);
+
+    --accent-01: var(--vscode-inputValidation-infoBackground);
+    --accent-02: var(--vscode-inputOption-activeBackground);
+}
+
+.fg-grid                    { color: var(--gridDotColor); }
+
+.bg-default                 { background-color: var(--defaultBg); }
+.fg-default                 { color: var(--defaultFg); }
+
+.outline-border             { outline: 1px solid var(--borderColor); }
+
+.outline-lime               { outline: 1px solid lime; }
+
+
+.bg-accent-01                   { background-color: var(--accent-01); }
+.hover\:bg-accent-01:hover      { background-color: var(--accent-01); }
+.bg-accent-01-nontransparent    { background-color: var(--accent-01-nontransparent, var(--accent-01)); }
+.bg-accent-02                   { background-color: var(--accent-02); }
+.hover\:bg-accent-02:hover      { background-color: var(--accent-02); }
+.bg-accent-02-nontransparent    { background-color: var(--accent-02-nontransparent, var(--accent-02)); }
+
+.bg-3 { background-color: var(--vscode-inputOption-hoverBackground); }
+
+.bg-panel { background-color: var(--vscode-panel-background); }
+
+.color-dimmed { color: var(--dimmedFg); }
+.color-error { color: var(--vscode-editorError-foreground); }
+.color-warning { color: var(--vscode-editorWarning-foreground); }
+.color-link { color: var(--vscode-textLink-foreground); }
+.hover\:color-link:hover { color: var(--vscode-textLink-foreground); }
+
+.decoration-current { text-decoration-color: currentColor; }
+.decoration-dimmed { text-decoration-color: var(--dimmedFg); }
+.decoration-error { text-decoration-color: var(--vscode-editorError-foreground); }
+.decoration-warning { text-decoration-color: var(--vscode-editorWarning-foreground); }
+
+.bg-quickInput { background-color: var(--vscode-quickInput-background); }
+.fg-quickInput { background-color: var(--vscode-quickInput-foreground); }
+.hover\:bg-quickInputList-focus:hover { background-color: var(--vscode-quickInputList-focusBackground); }
+.hover\:fg-quickInputList-focus:hover { color: var(--vscode-quickInputList-focusForeground); }
+
+.widget-shadow { box-shadow: 0 0 8px 2px var(--vscode-widget-shadow);}
+
+
+.color-palette-01 { color: var(--palette-01); }
+.color-palette-02 { color: var(--palette-02); }
+.color-palette-03 { color: var(--palette-03); }
+.color-palette-04 { color: var(--palette-04); }
+.color-palette-05 { color: var(--palette-05); }
+.color-palette-06 { color: var(--palette-06); }
+.color-palette-07 { color: var(--palette-07); }
+.color-palette-08 { color: var(--palette-08); }
+
+.bg-palette-01 { background-color: var(--palette-01); }
+.bg-palette-02 { background-color: var(--palette-02); }
+.bg-palette-03 { background-color: var(--palette-03); }
+.bg-palette-04 { background-color: var(--palette-04); }
+.bg-palette-05 { background-color: var(--palette-05); }
+.bg-palette-06 { background-color: var(--palette-06); }
+.bg-palette-07 { background-color: var(--palette-07); }
+.bg-palette-08 { background-color: var(--palette-08); }

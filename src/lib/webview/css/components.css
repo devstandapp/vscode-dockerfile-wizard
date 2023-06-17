@@ -1,0 +1,81 @@
+.link {
+    color: var(--vscode-textLink-foreground);
+}
+.link:hover, .link:active {
+    color: var(--vscode-textLink-activeForeground);
+}
+
+
+.button {
+	border: none;
+	padding: var(--rs1-px) var(--rs4-px);
+    line-height: var(--rs6-px);
+	text-align: center;
+	outline: 1px solid transparent;
+	outline-offset: 2px !important;
+	color: var(--vscode-button-foreground);
+	background: var(--vscode-button-background);
+}
+.button:hover {
+	cursor: pointer;
+	background: var(--vscode-button-hoverBackground);
+}
+.button:focus {
+	outline-color: var(--vscode-focusBorder);
+}
+.button.button-secondary {
+	color: var(--vscode-button-secondaryForeground);
+	background: var(--vscode-button-secondaryBackground);
+}
+.button.button-secondary:hover {
+	background: var(--vscode-button-secondaryHoverBackground);
+}
+
+
+.input-text {
+	border: none;
+	font-family: var(--vscode-font-family);
+	padding: var(--rs1-px) var(--rs2-px);
+    line-height: var(--rs6-px);
+	color: var(--vscode-input-foreground);
+	outline: 1px solid var(--borderColor);
+	outline-offset: -1px;
+	background-color: var(--vscode-input-background);
+}
+.input-text::placeholder {
+	color: var(--vscode-input-placeholderForeground);
+}
+.input-text:focus {
+    outline-color: var(--vscode-focusBorder);
+}
+
+
+
+input[type="number"].large-spinner::-webkit-outer-spin-button,
+input[type="number"].large-spinner::-webkit-inner-spin-button {
+    transform: scale(1.4);
+}
+
+
+
+.icon { width: 16px; height: 16px; min-width: 16px; }
+.lh-icon { line-height: 16px; }
+
+
+.underline-abbr {
+    text-decoration-line: underline;
+    text-decoration-style: dotted;
+    text-underline-offset: 2px;
+    text-decoration-thickness: 1px;
+    text-decoration-color: var(--dimmedFg);
+}
+
+.bg-ToolbarButton:focus,
+.bg-ToolbarButton:hover {
+    background-color: var(--vscode-toolbar-hoverBackground);
+}
+
+
+.ScrollShadow {
+    box-shadow: var(--vscode-scrollbar-shadow) 0 6px 6px -6px inset;
+}

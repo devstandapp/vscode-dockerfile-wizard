@@ -1,0 +1,69 @@
+{
+  "name": "vscode-dockerfile",
+  "displayName": "Dockerfile Wizard",
+  "publisher": "scaleofone",
+  "version": "0.0.1",
+  "description": "Visually design and fine tune a production-ready Dockerfile",
+  "type": "module",
+  "main": "dist/extension/main.cjs",
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "license": "Apache-2.0",
+  "author": {
+    "email": "max@scaleofone.com",
+    "name": "Maksim Pshenichnikov"
+  },
+  "icon": "dist/icon-256x256.png",
+  "galleryBanner": {
+    "color": "#022240",
+    "theme": "dark"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/scaleofone/vscode-dockerfile.git"
+  },
+  "bugs": {
+    "email": "max@scaleofone.com",
+    "url": "https://github.com/scaleofone/vscode-dockerfile/issues"
+  },
+  "contributes": {
+    "commands": [
+      {
+        "command": "Dockerfile.openAssemblyPanel",
+        "title": "Create Dockerfile!"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "Dockerfile.openAssemblyPanel",
+          "group": "2_workspace",
+          "when": "explorerResourceIsFolder"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "dev": "vite",
+    "dist": "rm -rf ./dist && npm run build:extension && npm run build:assembly -- --logLevel warn",
+    "build:extension": "node esbuild-extension.mjs --minify",
+    "watch:extension": "npm run build:extension -- --watch --sourcemap --minify false",
+    "build:assembly": "vite build --config vite/assembly.vite.config.ts",
+    "watch:assembly": "npm run build:assembly -- --watch --sourcemap --minify false",
+    "check": "svelte-check --tsconfig ./tsconfig.json"
+  },
+  "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "^2.0.2",
+    "@tsconfig/svelte": "^3.0.0",
+    "@types/vscode": "1.75.1",
+    "@vscode/codicons": "0.0.27",
+    "esbuild": "^0.16.17",
+    "svelte": "^3.55.1",
+    "svelte-check": "^2.10.3",
+    "throttle-debounce": "5.0.0",
+    "tslib": "^2.5.0",
+    "typescript": "^4.9.3",
+    "vite": "^4.1.0"
+  }
+}

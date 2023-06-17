@@ -1,0 +1,7 @@
+.bg-preference:hover,
+.bg-preference:focus-within {
+    background-color: var(--vscode-settings-rowHoverBackground);
+}
+.outline-preference:focus-within {
+    outline: 1px solid var(--vscode-settings-focusedRowBorder) !important;
+}
