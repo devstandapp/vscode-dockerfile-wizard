@@ -11,6 +11,8 @@ node_modules
 dist
 *.local
 
+*.vsix
+
 # Editor directories and files
 .vscode/settings.json
 .idea

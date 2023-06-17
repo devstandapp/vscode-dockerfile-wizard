@@ -2,7 +2,7 @@
   "name": "vscode-dockerfile",
   "displayName": "Dockerfile Wizard",
   "publisher": "scaleofone",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Visually design and fine tune a production-ready Dockerfile",
   "type": "module",
   "main": "dist/extension/main.cjs",
@@ -51,6 +51,7 @@
     "watch:extension": "npm run build:extension -- --watch --sourcemap --minify false",
     "build:assembly": "vite build --config vite/assembly.vite.config.ts",
     "watch:assembly": "npm run build:assembly -- --watch --sourcemap --minify false",
+    "vscode:prepublish": "npm run dist",
     "check": "svelte-check --tsconfig ./tsconfig.json"
   },
   "devDependencies": {
