@@ -1,5 +1,5 @@
 import vscode from 'vscode'
-import type { ContainerLanguageReport, JsLanguageReport, PhpLanguageReport } from '../../sharedTypes'
+import type { ContainerLanguageReport, JsLanguageReport, PhpLanguageReport, PhpModule } from '../../sharedTypes'
 import { directoryExists, directoryListed, fileExists, fileListed, unique } from './utils'
 
 export default async function(folder: vscode.WorkspaceFolder, rootDirectoryListing: [string, vscode.FileType][], excludePattern: string, containerReport: ContainerLanguageReport, phpReport: PhpLanguageReport, jsReport: JsLanguageReport | undefined = undefined): Promise<void> {
@@ -70,18 +70,18 @@ export default async function(folder: vscode.WorkspaceFolder, rootDirectoryListi
         }
     }
 
-    recommendModule(phpReport, 'curl',      '', 'Guzzle HTTP client')
-    recommendModule(phpReport, 'zip',       '', 'Composer package manger')
-    recommendModule(phpReport, 'phar',      '', 'Composer package manger')
-    recommendModule(phpReport, 'pcntl',     '', 'Laravel queue workers')
-    recommendModule(phpReport, 'pcntl',     '', 'Tinker console')
-    recommendModule(phpReport, 'posix',     '', 'Laravel queue workers')
-    recommendModule(phpReport, 'posix',     '', 'Tinker console')
-    recommendModule(phpReport, 'readline',  '', 'Tinker console')
+    pushPhpModule(phpReport.phpModulesRecommendedByFramework,   'curl',      '', 'Guzzle HTTP client')
+    pushPhpModule(phpReport.phpModulesRecommendedByFramework,   'zip',       '', 'Composer package manger')
+    pushPhpModule(phpReport.phpModulesRecommendedByFramework,   'phar',      '', 'Composer package manger')
+    pushPhpModule(phpReport.phpModulesRecommendedByFramework,   'pcntl',     '', 'Laravel queue workers')
+    pushPhpModule(phpReport.phpModulesRecommendedByFramework,   'pcntl',     '', 'Tinker console')
+    pushPhpModule(phpReport.phpModulesRecommendedByFramework,   'posix',     '', 'Laravel queue workers')
+    pushPhpModule(phpReport.phpModulesRecommendedByFramework,   'posix',     '', 'Tinker console')
+    pushPhpModule(phpReport.phpModulesRecommendedByFramework,   'readline',  '', 'Tinker console')
 
-    recommendModule(phpReport, 'pdo-mysql', '', 'Database driver')
-    recommendModule(phpReport, 'pdo-pgsql', '', 'Database driver')
-    recommendModule(phpReport, 'pdo-sqlite', '', 'Database driver')
+    pushPhpModule(phpReport.phpModulesRecommendedByFramework,   'pdo-mysql', '', 'Database driver')
+    pushPhpModule(phpReport.phpModulesRecommendedByFramework,   'pdo-pgsql', '', 'Database driver')
+    pushPhpModule(phpReport.phpModulesRecommendedByFramework,   'pdo-sqlite', '', 'Database driver')
 
     if (jsReport) {
         // TODO actually detect where built frontend is stored
@@ -91,8 +91,11 @@ export default async function(folder: vscode.WorkspaceFolder, rootDirectoryListi
     return Promise.resolve()
 }
 
-function recommendModule(phpReport: PhpLanguageReport, module: string, dependency: string, note: string) {
-    const row = phpReport.phpModulesRecommendedByFramework.find(row => row.module == module)
-    if (row) { row.related.push({ dependency, note }) }
-    else { phpReport.phpModulesRecommendedByFramework.push({ module, related: [{ dependency, note }] }) }
+function pushPhpModule(collection: PhpModule[], module: string, dependency: string, note: string) {
+    let item = collection.find(i => i.module == module)
+    if (! item) {
+        collection.push({ module, related: [] })
+        item = collection.find(i => i.module == module)
+    }
+    item.related.push({ dependency, note })
 }
