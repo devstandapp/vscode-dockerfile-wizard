@@ -110,7 +110,7 @@ ${
         ? d.jsOutPaths.map(path => `COPY --from=stage-npm /dist/${path} ./${path}`).join('\n')  : ''
 }
 
-RUN composer dump-autoload --no-dev --optimize \\
+RUN composer dump-autoload --no-dev --optimize${ d.writablePaths.length ? ' \\' : '' }
 ${ d.writablePaths.length ? `    && find ${ d.writablePaths.map(path => `./${path}`).join(' ') } \\
         -exec chown -R appuser:root {} \\; -exec chmod -R g+rwX {} \\;` : '' }
 
