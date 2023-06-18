@@ -8,6 +8,7 @@ export interface AssemblyFormResult {
     serverRequestSize: number
     serverRouteAppendUri: boolean
 
+    phpBinaryPath: string,
     phpPackagesToInstall: string[]
     documentRoot: string
     frontController: string

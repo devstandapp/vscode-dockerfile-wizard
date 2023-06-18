@@ -32,6 +32,7 @@ COPY --from=composer/composer:2-bin /composer /usr/local/bin/composer
 RUN apk add --no-cache \\
         ${ d.phpPackagesToInstall.join(' \\\n        ') } \\
         ${ d.serverPackagesToInstall.join(' \\\n        ') } \\
+    && ln -s ${ d.phpBinaryPath } ${ d.phpBinaryPath.replace(/\/php[^\/]{1,}$/g, '/php') }
     && adduser -D -u 1001 -G root -h /appuser appuser \\
     && mkdir -p /unit/run /unit/state /unit/state/certs /unit/tmp \\
     && find /appuser /unit -exec chown -R appuser:root {} \\; -exec chmod -R g+rwX {} \\;

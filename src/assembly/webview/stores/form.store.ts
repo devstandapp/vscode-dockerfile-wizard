@@ -424,6 +424,7 @@ export const formResult: Readable<AssemblyFormResult | undefined> = derived(
                 serverRequestSize: $serverRequestSize,
                 serverRouteAppendUri: ($baseImage.baseImageName == 'alpine' && parseFloat($baseImage.baseImageTag) >= 3.17),
 
+                phpBinaryPath: `/usr/bin/${ $baseImage.apkPhpPackage }`,
                 phpPackagesToInstall: $phpPackagesToInstall,
                 documentRoot: $documentRoot,
                 frontController: $frontController,
