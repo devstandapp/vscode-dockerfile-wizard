@@ -10,7 +10,7 @@ export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(vscode.Disposable.from(assemblyWizardPanelProvider))
 
     context.subscriptions.push(
-        vscode.commands.registerCommand('Dockerfile.openAssemblyPanel', () => {
+        vscode.commands.registerCommand('DockerfileWizard.openAssemblyPanel', () => {
             assemblyWizardPanelProvider.createWebviewPanel(getWorkspaceFolder().uri).reveal()
         })
     )

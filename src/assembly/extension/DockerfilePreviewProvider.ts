@@ -4,7 +4,7 @@ import { assemble } from './assemble'
 
 export class DockerfilePreviewProvider implements vscode.TextDocumentContentProvider {
 
-    public static scheme = 'devstand-dockerfile-preview'
+    public static scheme = 'dockerfile-wizard-preview'
 
     private disposables: { dispose: () => any }[] = []
 

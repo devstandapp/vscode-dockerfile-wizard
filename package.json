@@ -1,5 +1,5 @@
 {
-  "name": "vscode-dockerfile",
+  "name": "vscode-dockerfile-wizard",
   "displayName": "Dockerfile Wizard",
   "publisher": "scaleofone",
   "version": "0.1.0",
@@ -21,16 +21,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/scaleofone/vscode-dockerfile.git"
+    "url": "https://github.com/scaleofone/vscode-dockerfile-wizard.git"
   },
   "bugs": {
     "email": "max@scaleofone.com",
-    "url": "https://github.com/scaleofone/vscode-dockerfile/issues"
+    "url": "https://github.com/scaleofone/vscode-dockerfile-wizard/issues"
   },
   "contributes": {
     "commands": [
       {
-        "command": "Dockerfile.openAssemblyPanel",
+        "command": "DockerfileWizard.openAssemblyPanel",
         "title": "Dockerfile Wizard"
       }
     ]

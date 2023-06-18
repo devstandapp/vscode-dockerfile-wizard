@@ -173,8 +173,8 @@ export class AssemblyWizardPanelProvider {
 
     public createWebviewPanel(folder: vscode.Uri): vscode.WebviewPanel {
         const panel = vscode.window.createWebviewPanel(
-            'DevStand.ContainerfilePanel',
-            'Create Dockerfile',
+            'DockerfileWizard.AssemblyPanel',
+            'Dockerfile Wizard',
             vscode.ViewColumn.One,
             { enableScripts: true, localResourceRoots: [vscode.Uri.joinPath(this.extensionUri, 'dist')], enableFindWidget: true }
         )
