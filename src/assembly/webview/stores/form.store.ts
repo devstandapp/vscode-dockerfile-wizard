@@ -346,7 +346,7 @@ export const expandedWritablePathsForm  = writable<boolean>(rememberedState.expa
 export const expandedWebServerForm      = writable<boolean>(rememberedState.expandedWebServerForm       || false)
 
 
-export const ghaCreate = writable<boolean>(true)
+export const ghaCreate = writable<boolean>(false)
 
 
 export const saveEnabled: Readable<boolean> = derived(
