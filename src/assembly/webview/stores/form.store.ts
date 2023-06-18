@@ -16,6 +16,15 @@ function unique(item: any, pos: number, self: any[]) {
 }
 
 
+function apkPackageToPhpModule(apkPackage: string) {
+    return apkPackage.replace(/^php\d{0,2}(-pecl)?-([a-z0-9_]+)(-dev)?$/g, '$2').replaceAll('_', '-').replaceAll(/-dev$/g, '')
+}
+function doesApkPackageMatchPhpModule(module: string) {
+    const regex = new RegExp(`^php\\d{0,2}(-pecl)?-(${ module.replaceAll('-', '_') }|${ module })(-dev)?$`, 'g')
+    return (apkPackage: string) => apkPackage.match(regex)
+}
+
+
 interface VscodeRememberedState {
     // windowScrollY?: number
     panelKey: string,
@@ -107,7 +116,7 @@ export const baseImage: Readable<BaseImage | undefined> = derived([phpVersion, b
 
 export const phpModulesAll: Readable<string[]> = derived(baseImage, $baseImage => {
     if ($baseImage) {
-        return $baseImage.phpPackagesAll.map(str => str.split('-').pop().replaceAll('_', '-'))
+        return $baseImage.phpPackagesAll.map(apkPackageToPhpModule)
             .concat($baseImage.phpModulesBuiltin).sort()
     } else {
         return []
@@ -194,7 +203,7 @@ export const phpPackagesToInstall = derived([baseImage, phpModulesChecked, phpMo
             ...(
                 $phpModulesChecked.filter(m => !$phpModulesBuiltin.includes(m))
                     .flatMap(phpModuleName => {
-                        return [ $baseImage.phpPackagesAll.find(apkPackage => apkPackage.endsWith(phpModuleName) || apkPackage.endsWith(phpModuleName.replaceAll('-', '_'))) ].filter(x=>x)
+                        return [ $baseImage.phpPackagesAll.find(doesApkPackageMatchPhpModule(phpModuleName)) ].filter(x=>x)
                     }).sort()
             )
         ]
