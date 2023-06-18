@@ -31,18 +31,9 @@
     "commands": [
       {
         "command": "Dockerfile.openAssemblyPanel",
-        "title": "Create Dockerfile!"
+        "title": "Dockerfile Wizard"
       }
-    ],
-    "menus": {
-      "explorer/context": [
-        {
-          "command": "Dockerfile.openAssemblyPanel",
-          "group": "2_workspace",
-          "when": "explorerResourceIsFolder"
-        }
-      ]
-    }
+    ]
   },
   "scripts": {
     "dev": "vite",
