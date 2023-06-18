@@ -8,7 +8,7 @@ import phpDictionary from '../../data/phpDictionary.json'
 import { arrayify } from '../../../lib/stores/arrayify'
 
 import { phpReport, jsReport, containerReport } from './report.store'
-import type { AssemblyFormResult } from '../../sharedTypes'
+import type { BaseImage, AssemblyFormResult } from '../../sharedTypes'
 import { extension } from '../transport'
 
 function unique(item: any, pos: number, self: any[]) {
@@ -100,15 +100,6 @@ baseImageTags.subscribe($baseImageTags => {
 })
 
 
-interface BaseImage {
-    baseImageName: string
-    baseImageTag: string
-    phpVersion: string
-    apkPhpPackage: string
-    apkUnitPackage: string
-    phpModulesBuiltin: string[]
-    phpPackagesAll: string[]
-}
 export const baseImage: Readable<BaseImage | undefined> = derived([phpVersion, baseImageName, baseImageTag], ([$phpVersion, $baseImageName, $baseImageTag])=>{
     return phpDictionary.baseImages
         .find(bi => bi.phpVersion == $phpVersion && bi.baseImageName == $baseImageName && bi.baseImageTag == $baseImageTag)
@@ -416,15 +407,13 @@ export const formResult: Readable<AssemblyFormResult | undefined> = derived(
         if ($baseImage && $documentRoot && $frontController && $phpPathsForBuild.length && $dockerIgnoreText) {
             return {
                 panelKey: panelKey,
-                baseImageName: $baseImage.baseImageName,
-                baseImageTag: $baseImage.baseImageTag,
+
+                baseImage: $baseImage,
 
                 serverPackagesToInstall: $serverPackagesToInstall,
                 serverPort: $serverPort,
                 serverRequestSize: $serverRequestSize,
-                serverRouteAppendUri: ($baseImage.baseImageName == 'alpine' && parseFloat($baseImage.baseImageTag) >= 3.17),
 
-                phpBinaryPath: `/usr/bin/${ $baseImage.apkPhpPackage }`,
                 phpPackagesToInstall: $phpPackagesToInstall,
                 documentRoot: $documentRoot,
                 frontController: $frontController,

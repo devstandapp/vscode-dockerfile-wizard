@@ -1,14 +1,23 @@
-export interface AssemblyFormResult {
-    panelKey: string
+export interface BaseImage {
     baseImageName: string
     baseImageTag: string
+    phpVersion: string
+    unitVersion: string
+    apkPhpPackage: string
+    apkUnitPackage: string
+    phpModulesBuiltin: string[]
+    phpPackagesAll: string[]
+}
+
+export interface AssemblyFormResult {
+    panelKey: string
+
+    baseImage: BaseImage
 
     serverPackagesToInstall: string[]
     serverPort: number
     serverRequestSize: number
-    serverRouteAppendUri: boolean
 
-    phpBinaryPath: string,
     phpPackagesToInstall: string[]
     documentRoot: string
     frontController: string
