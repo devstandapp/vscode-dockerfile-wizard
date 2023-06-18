@@ -6,6 +6,8 @@ export function assemble(d: AssemblyFormResult): string {
 
 const unitVestion: number = parseFloat(d.baseImage.unitVersion)
 
+const symlinkPhpBinary = d.baseImage.phpBinaryPath.match(/\/php[^\/]{1,}$/g) ? `&& ln -s ${d.baseImage.phpBinaryPath} ${d.baseImage.phpBinaryPath.replace(/\/php[^\/]{1,}$/g, '/php')} \\` : undefined
+
 return `# syntax=docker/dockerfile:1
 ${d.jsBuildStage ? `
 FROM node:${d.jsNodeImageTag} AS stage-npm
@@ -33,8 +35,7 @@ COPY --from=composer/composer:2-bin /composer /usr/local/bin/composer
 
 RUN apk add --no-cache \\
         ${ d.phpPackagesToInstall.join(' \\\n        ') } \\
-        ${ d.serverPackagesToInstall.join(' \\\n        ') } \\
-    && ln -s /usr/bin/${ d.baseImage.apkPhpPackage } /usr/bin/php \\
+        ${ d.serverPackagesToInstall.join(' \\\n        ') } \\${symlinkPhpBinary ? '\n    '+symlinkPhpBinary : ''}
     && adduser -D -u 1001 -G root -h /appuser appuser \\
     && mkdir -p /unit/run /unit/state /unit/state/certs /unit/tmp \\
     && find /appuser /unit -exec chown -R appuser:root {} \\; -exec chmod -R g+rwX {} \\;

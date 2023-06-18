@@ -2,6 +2,7 @@ export interface BaseImage {
     baseImageName: string
     baseImageTag: string
     phpVersion: string
+    phpBinaryPath: string
     unitVersion: string
     apkPhpPackage: string
     apkUnitPackage: string

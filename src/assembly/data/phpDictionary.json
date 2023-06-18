@@ -5,6 +5,7 @@
             "baseImageTag": "3.18",
             "phpVersion": "8.2",
             "apkPhpPackage": "php82",
+            "phpBinaryPath": "/usr/bin/php82",
             "apkUnitPackage": "unit-php82",
             "unitVersion": "1.30",
             "phpModulesBuiltin": [
@@ -109,6 +110,7 @@
             "baseImageTag": "3.18",
             "phpVersion": "8.1",
             "apkPhpPackage": "php81",
+            "phpBinaryPath": "/usr/bin/php",
             "apkUnitPackage": "unit-php81",
             "unitVersion": "1.30",
             "phpModulesBuiltin": [
@@ -216,6 +218,7 @@
             "baseImageName": "alpine",
             "baseImageTag": "3.17",
             "phpVersion": "8.1",
+            "phpBinaryPath": "/usr/bin/php",
             "apkPhpPackage": "php81",
             "apkUnitPackage": "unit-php81",
             "unitVersion": "1.29",
@@ -322,6 +325,7 @@
             "baseImageTag": "3.16",
             "phpVersion": "8.0",
             "apkPhpPackage": "php8",
+            "phpBinaryPath": "/usr/bin/php",
             "apkUnitPackage": "unit-php8",
             "unitVersion": "1.26",
             "phpModulesBuiltin": [
@@ -431,6 +435,7 @@
             "baseImageTag": "3.15",
             "phpVersion": "7.4",
             "apkPhpPackage": "php7",
+            "phpBinaryPath": "/usr/bin/php",
             "apkUnitPackage": "unit-php7",
             "unitVersion": "1.26",
             "phpModulesBuiltin": [
