@@ -70,6 +70,12 @@ export default async function(folder: vscode.WorkspaceFolder, rootDirectoryListi
         }
     }
 
+    if (phpReport.framework == 'laravel' && ! phpReport.phpModulesFromRequiredPackages.some(m => (
+        m.module == 'session' && m.related.some(r => r.dependency == 'laravel/framework')
+    ))) {
+        pushPhpModule(phpReport.phpModulesFromRequiredPackages, 'session', 'laravel/framework', '')
+    }
+
     pushPhpModule(phpReport.phpModulesRecommendedByFramework,   'curl',      '', 'Guzzle HTTP client')
     pushPhpModule(phpReport.phpModulesRecommendedByFramework,   'zip',       '', 'Composer package manger')
     pushPhpModule(phpReport.phpModulesRecommendedByFramework,   'phar',      '', 'Composer package manger')
