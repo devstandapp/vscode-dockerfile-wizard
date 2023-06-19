@@ -1,15 +1,15 @@
 .link {
-    color: var(--vscode-textLink-foreground);
+	color: var(--vscode-textLink-foreground);
 }
 .link:hover, .link:active {
-    color: var(--vscode-textLink-activeForeground);
+	color: var(--vscode-textLink-activeForeground);
 }
 
 
 .button {
 	border: none;
 	padding: var(--rs1-px) var(--rs4-px);
-    line-height: var(--rs6-px);
+	line-height: var(--rs6-px);
 	text-align: center;
 	outline: 1px solid transparent;
 	outline-offset: 2px !important;
@@ -36,7 +36,7 @@
 	border: none;
 	font-family: var(--vscode-font-family);
 	padding: var(--rs1-px) var(--rs2-px);
-    line-height: var(--rs6-px);
+	line-height: var(--rs6-px);
 	color: var(--vscode-input-foreground);
 	outline: 1px solid var(--borderColor);
 	outline-offset: -1px;
@@ -46,14 +46,14 @@
 	color: var(--vscode-input-placeholderForeground);
 }
 .input-text:focus {
-    outline-color: var(--vscode-focusBorder);
+	outline-color: var(--vscode-focusBorder);
 }
 
 
 
 input[type="number"].large-spinner::-webkit-outer-spin-button,
 input[type="number"].large-spinner::-webkit-inner-spin-button {
-    transform: scale(1.4);
+	transform: scale(1.4);
 }
 
 
@@ -63,19 +63,19 @@ input[type="number"].large-spinner::-webkit-inner-spin-button {
 
 
 .underline-abbr {
-    text-decoration-line: underline;
-    text-decoration-style: dotted;
-    text-underline-offset: 2px;
-    text-decoration-thickness: 1px;
-    text-decoration-color: var(--dimmedFg);
+	text-decoration-line: underline;
+	text-decoration-style: dotted;
+	text-underline-offset: 2px;
+	text-decoration-thickness: 1px;
+	text-decoration-color: var(--dimmedFg);
 }
 
 .bg-ToolbarButton:focus,
 .bg-ToolbarButton:hover {
-    background-color: var(--vscode-toolbar-hoverBackground);
+	background-color: var(--vscode-toolbar-hoverBackground);
 }
 
 
 .ScrollShadow {
-    box-shadow: var(--vscode-scrollbar-shadow) 0 6px 6px -6px inset;
+	box-shadow: var(--vscode-scrollbar-shadow) 0 6px 6px -6px inset;
 }

@@ -1,51 +1,51 @@
 :root {
 
-    --fs1: 3;
-    --fs1-px: calc(1px * var(--fs1));
-    --fs2: 6;
-    --fs2-px: calc(1px * var(--fs2));
-    --fs3: 9;
-    --fs3-px: calc(1px * var(--fs3));
-    --fs4: 12;
-    --fs4-px: calc(1px * var(--fs4));
+	--fs1: 3;
+	--fs1-px: calc(1px * var(--fs1));
+	--fs2: 6;
+	--fs2-px: calc(1px * var(--fs2));
+	--fs3: 9;
+	--fs3-px: calc(1px * var(--fs3));
+	--fs4: 12;
+	--fs4-px: calc(1px * var(--fs4));
 
-    --lh: 18;
-    --lh-px: calc(1px * var(--lh));
+	--lh: 18;
+	--lh-px: calc(1px * var(--lh));
 
-    --rs1-px: 3px;      /* 13px * 0.25; */
-    --rs2-px: 7px;      /* 13px * 0.5;  */
-    --rs3-px: 10px;     /* 13px * 0.75; */
-    --rs4-px: 13px;     /* 13px * 1;    */
-    --rs5-px: 16px;     /* 13px * 1.25; */
-    --rs6-px: 20px;     /* 13px * 1.5;  */
-    --rs7-px: 23px;     /* 13px * 1.75; */
-    --rs8-px: 26px;     /* 13px * 2;    */
+	--rs1-px: 3px;      /* 13px * 0.25; */
+	--rs2-px: 7px;      /* 13px * 0.5;  */
+	--rs3-px: 10px;     /* 13px * 0.75; */
+	--rs4-px: 13px;     /* 13px * 1;    */
+	--rs5-px: 16px;     /* 13px * 1.25; */
+	--rs6-px: 20px;     /* 13px * 1.5;  */
+	--rs7-px: 23px;     /* 13px * 1.75; */
+	--rs8-px: 26px;     /* 13px * 2;    */
 
-    --gs1: 4;
-    --gs1-px: calc(1px * var(--gs1));
-    --gs2: 9;
-    --gs2-px: calc(1px * var(--gs2));
-    --gs3: 14;
-    --gs3-px: calc(1px * var(--gs3));
-    --gs4: 18;
-    --gs4-px: calc(1px * var(--gs4));
+	--gs1: 4;
+	--gs1-px: calc(1px * var(--gs1));
+	--gs2: 9;
+	--gs2-px: calc(1px * var(--gs2));
+	--gs3: 14;
+	--gs3-px: calc(1px * var(--gs3));
+	--gs4: 18;
+	--gs4-px: calc(1px * var(--gs4));
 
-    --squareMinWidth-gs: 8;
-    --squareMinWidth-px: calc(var(--gs4-px) * var(--squareMinWidth-gs));
-    --squareMaxWidth-gs: 12;
-    --squareMaxWidth-px: calc(var(--gs4-px) * var(--squareMaxWidth-gs));
+	--squareMinWidth-gs: 8;
+	--squareMinWidth-px: calc(var(--gs4-px) * var(--squareMinWidth-gs));
+	--squareMaxWidth-gs: 12;
+	--squareMaxWidth-px: calc(var(--gs4-px) * var(--squareMaxWidth-gs));
 
-    --knobSize: 16;
-    --knobSize-px: calc(1px * var(--knobSize));
+	--knobSize: 16;
+	--knobSize-px: calc(1px * var(--knobSize));
 
 
-    --palette-01: #f9429a;
-    --palette-02: #6c6cdc;
-    --palette-03: #0071af;
-    --palette-04: #009bab;
-    --palette-05: #008763;
-    --palette-06: #2ba800;
-    --palette-07: #e76c00;
-    --palette-08: #e0310e;
+	--palette-01: #f9429a;
+	--palette-02: #6c6cdc;
+	--palette-03: #0071af;
+	--palette-04: #009bab;
+	--palette-05: #008763;
+	--palette-06: #2ba800;
+	--palette-07: #e76c00;
+	--palette-08: #e0310e;
 
 }
