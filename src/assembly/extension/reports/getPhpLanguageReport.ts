@@ -62,20 +62,20 @@ export default async function (folder: vscode.WorkspaceFolder, rootDirectoryList
 }
 
 function extractModules(extOrPkgNames: string[]) {
-	return extOrPkgNames.filter((extOrPkg) => extOrPkg.startsWith('ext-') && !extOrPkg.includes('/')).map((ext) => ext.replace(/^ext-/, ''))
+	return extOrPkgNames.filter(extOrPkg => extOrPkg.startsWith('ext-') && !extOrPkg.includes('/')).map(ext => ext.replace(/^ext-/, ''))
 }
 
 function extractModulesListFromPkg(pkgs: object[], pkgProperty: string = 'require', valueAsNote: boolean = false): PhpModule[] {
-	const raw = pkgs.flatMap((pkg) =>
+	const raw = pkgs.flatMap(pkg =>
 		!(typeof pkg == 'object' && 'name' in pkg && typeof pkg[pkgProperty] == 'object')
 			? []
-			: extractModules(Object.keys(pkg[pkgProperty])).map((ext) => [ext, pkg['name'], valueAsNote ? pkg[pkgProperty]['ext-' + ext] : undefined])
+			: extractModules(Object.keys(pkg[pkgProperty])).map(ext => [ext, pkg['name'], valueAsNote ? pkg[pkgProperty]['ext-' + ext] : undefined])
 	)
-	return Array.from(new Set(raw.map((item) => item[0]))).map((module) => ({
+	return Array.from(new Set(raw.map(item => item[0]))).map(module => ({
 		module: module,
 		related: raw
-			.filter((item) => item[0] == module)
-			.map((item) => ({
+			.filter(item => item[0] == module)
+			.map(item => ({
 				dependency: item[1],
 				note: item[2],
 			})),

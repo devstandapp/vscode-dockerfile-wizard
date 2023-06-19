@@ -40,8 +40,8 @@ export class AssemblyWizardPanelProvider {
 		})
 
 		const webview: WebviewInterface = {
-			editorSettings: (payload) => messenger.postVoidPayload('editorSettings', payload),
-			themeSettings: (payload) => messenger.postVoidPayload('themeSettings', payload),
+			editorSettings: payload => messenger.postVoidPayload('editorSettings', payload),
+			themeSettings: payload => messenger.postVoidPayload('themeSettings', payload),
 			getFormResult: () => messenger.postRequestPayload('getFormResult', null),
 		}
 
@@ -55,7 +55,7 @@ export class AssemblyWizardPanelProvider {
 		let panelKey: string = undefined
 
 		const domain: DomainInterface = {
-			showMessage: (payload) => {
+			showMessage: payload => {
 				if (payload.error === true) {
 					vscode.window.showErrorMessage(payload.message, { detail: payload.detail })
 				} else {
@@ -68,7 +68,7 @@ export class AssemblyWizardPanelProvider {
 				}
 				return this.repositoryReport
 			},
-			formResultChanged: (payload) => {
+			formResultChanged: payload => {
 				if (payload?.panelKey && !panelKey) {
 					panelKey = payload.panelKey
 				}
@@ -84,11 +84,11 @@ export class AssemblyWizardPanelProvider {
 				let uri = vscode.Uri.parse(`${DockerfilePreviewProvider.scheme}://${panelKey}/Preview`)
 				vscode.workspace
 					.openTextDocument(uri)
-					.then(async (doc) => {
+					.then(async doc => {
 						await vscode.languages.setTextDocumentLanguage(doc, 'dockerfile')
 						return doc
 					})
-					.then((doc) => {
+					.then(doc => {
 						vscode.window.showTextDocument(doc, {
 							viewColumn: vscode.ViewColumn.Beside,
 							preview: true,
@@ -96,7 +96,7 @@ export class AssemblyWizardPanelProvider {
 						})
 					})
 			},
-			onWizardRequestedSave: async (payload) => {
+			onWizardRequestedSave: async payload => {
 				const ghaCreate = payload?.ghaCreate || false
 				try {
 					const formResult = await webview.getFormResult()
@@ -129,7 +129,7 @@ export class AssemblyWizardPanelProvider {
 					}
 
 					const btnOpen = 'View Dockerfile'
-					vscode.window.showInformationMessage(dockerignoreUri ? 'Dockerfile and .dockerignore files saved' : 'Dockerfile saved', btnOpen).then((btn) => {
+					vscode.window.showInformationMessage(dockerignoreUri ? 'Dockerfile and .dockerignore files saved' : 'Dockerfile saved', btnOpen).then(btn => {
 						if (btn == btnOpen) {
 							vscode.window.showTextDocument(dockerfileUri, { viewColumn: vscode.ViewColumn.Beside })
 						}
@@ -147,7 +147,7 @@ export class AssemblyWizardPanelProvider {
 
 		let prevVisible: boolean | undefined = undefined
 		panel.onDidChangeViewState(
-			(event) => {
+			event => {
 				if (event.webviewPanel.visible) {
 					if (prevVisible === false) {
 						prevVisible = true

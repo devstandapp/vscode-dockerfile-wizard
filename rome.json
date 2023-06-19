@@ -10,7 +10,7 @@
 		"enabled": false
 	},
 	"formatter": {
-		"enabled": true,
+		"enabled": false,
 		"ignore": [
 			"src/assembly/extension/assemble.ts"
 		],

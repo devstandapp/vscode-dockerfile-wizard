@@ -9,10 +9,10 @@ import { get } from 'svelte/store'
 const messenger = new Messenger()
 
 const extension: DomainInterface = {
-	showMessage: (payload) => messenger.postVoidPayload('showMessage', payload),
+	showMessage: payload => messenger.postVoidPayload('showMessage', payload),
 	getRepositoryReport: (fresh?: boolean) => messenger.postRequestPayload('getRepositoryReport', fresh),
-	formResultChanged: (payload) => messenger.postVoidPayload('formResultChanged', payload),
-	onWizardRequestedSave: (payload) => messenger.postVoidPayload('onWizardRequestedSave', payload),
+	formResultChanged: payload => messenger.postVoidPayload('formResultChanged', payload),
+	onWizardRequestedSave: payload => messenger.postVoidPayload('onWizardRequestedSave', payload),
 	onWizardRequestedPreview: () => messenger.postVoidPayload('onWizardRequestedPreview', null),
 }
 

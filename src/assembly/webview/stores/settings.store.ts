@@ -4,14 +4,14 @@ import { initialEditorSettings, initialThemeSettings } from '../../../lib/transp
 
 export const themeSettings = writable<ThemeSettings>(initialThemeSettings(document.body))
 
-export const themeIsDark = derived(themeSettings, ($ts) => $ts.kind == 2 || $ts.kind == 3, false)
+export const themeIsDark = derived(themeSettings, $ts => $ts.kind == 2 || $ts.kind == 3, false)
 
 export const editorSettings = writable<EditorSettings>(initialEditorSettings())
 
 const gridSizeShouldBeEven = false
 export const gridSize = derived(
 	editorSettings,
-	($es) => {
+	$es => {
 		return gridSizeShouldBeEven && $es.lineHeight % 2 != 0 ? $es.lineHeight + 1 : $es.lineHeight
 	},
 	18
@@ -20,7 +20,7 @@ export const gridSize = derived(
 function cssVariable(key: string, value: number | string) {
 	document.documentElement.style.setProperty(`--${key}`, value.toString())
 }
-editorSettings.subscribe(($es) => {
+editorSettings.subscribe($es => {
 	let quaterFontSize = Math.floor($es.fontSize / 4)
 	let halfFontSize = Math.floor($es.fontSize / 2)
 	cssVariable('fs1', quaterFontSize)
@@ -29,7 +29,7 @@ editorSettings.subscribe(($es) => {
 	cssVariable('fs4', $es.fontSize)
 	cssVariable('lh', $es.lineHeight)
 })
-gridSize.subscribe(($gs) => {
+gridSize.subscribe($gs => {
 	let quaterGridSize = Math.floor($gs / 4)
 	let halfGridSize = Math.floor($gs / 2)
 	cssVariable('gs1', quaterGridSize)

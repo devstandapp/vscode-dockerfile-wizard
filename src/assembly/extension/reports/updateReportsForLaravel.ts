@@ -25,7 +25,7 @@ export default async function (
 	if (phpDirectoriesPaths.includes('resources') && jsReport && jsReport.pathsWithSources.includes('resources')) {
 		const resourcesDirectoryListing = await vscode.workspace.fs.readDirectory(vscode.Uri.joinPath(folder.uri, 'resources'))
 		const resourcesDirectories = resourcesDirectoryListing.flatMap(([path, type]) => (type == vscode.FileType.Directory ? [path] : []))
-		const resourcesFiles = resourcesDirectoryListing.flatMap(([path, type]) => (type == vscode.FileType.File ? [path] : [])).filter((p) => !p.startsWith('.'))
+		const resourcesFiles = resourcesDirectoryListing.flatMap(([path, type]) => (type == vscode.FileType.File ? [path] : [])).filter(p => !p.startsWith('.'))
 		let resourcesDirectoriesWithoutPhpFiles: string[] = []
 		for (let resourceDirectory of resourcesDirectories) {
 			let foundPhpFiles = await vscode.workspace.findFiles(new vscode.RelativePattern(folder, `resources/${resourceDirectory}/**/*.php`), excludePattern, 1)
@@ -35,7 +35,7 @@ export default async function (
 		}
 		if (resourcesDirectoriesWithoutPhpFiles.length > 0) {
 			phpDirectoriesPaths.splice(phpDirectoriesPaths.indexOf('resources'), 1)
-			phpDirectoriesPaths.push(...resourcesDirectories.filter((p) => !resourcesDirectoriesWithoutPhpFiles.includes(p)).map((p) => `resources/${p}`), ...resourcesFiles.map((p) => `resources/${p}`))
+			phpDirectoriesPaths.push(...resourcesDirectories.filter(p => !resourcesDirectoriesWithoutPhpFiles.includes(p)).map(p => `resources/${p}`), ...resourcesFiles.map(p => `resources/${p}`))
 			phpDirectoriesPaths.sort()
 		}
 	}
@@ -67,7 +67,7 @@ export default async function (
 		}
 	}
 
-	if (phpReport.framework == 'laravel' && !phpReport.phpModulesFromRequiredPackages.some((m) => m.module == 'session' && m.related.some((r) => r.dependency == 'laravel/framework'))) {
+	if (phpReport.framework == 'laravel' && !phpReport.phpModulesFromRequiredPackages.some(m => m.module == 'session' && m.related.some(r => r.dependency == 'laravel/framework'))) {
 		pushPhpModule(phpReport.phpModulesFromRequiredPackages, 'session', 'laravel/framework', '')
 	}
 
@@ -93,10 +93,10 @@ export default async function (
 }
 
 function pushPhpModule(collection: PhpModule[], module: string, dependency: string, note: string) {
-	let item = collection.find((i) => i.module == module)
+	let item = collection.find(i => i.module == module)
 	if (!item) {
 		collection.push({ module, related: [] })
-		item = collection.find((i) => i.module == module)
+		item = collection.find(i => i.module == module)
 	}
 	item.related.push({ dependency, note })
 }

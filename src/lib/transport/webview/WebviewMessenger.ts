@@ -36,7 +36,7 @@ class Messenger {
 		} else if (message.is == 'request' && message.from === 'extension') {
 			this.facade[message.command]
 				.apply(this.facade, [message.payload])
-				.then((responseFromFacade) => {
+				.then(responseFromFacade => {
 					this.sender.postMessage({
 						is: 'response',
 						from: 'webview',

@@ -1,0 +1,9 @@
+dist
+node_modules
+src/assembly/extension/assemble.ts
+
+*.yml
+*.yaml
+*.css
+
+*.svelte

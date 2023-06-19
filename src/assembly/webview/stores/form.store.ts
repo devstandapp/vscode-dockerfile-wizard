@@ -16,7 +16,10 @@ function unique(item: any, pos: number, self: any[]) {
 }
 
 function apkPackageToPhpModule(apkPackage: string) {
-	return apkPackage.replace(/^php\d{0,2}(-pecl)?-([a-z0-9_]+)(-dev)?$/g, '$2').replaceAll('_', '-').replaceAll(/-dev$/g, '')
+	return apkPackage
+		.replace(/^php\d{0,2}(-pecl)?-([a-z0-9_]+)(-dev)?$/g, '$2')
+		.replaceAll('_', '-')
+		.replaceAll(/-dev$/g, '')
 }
 function doesApkPackageMatchPhpModule(module: string) {
 	const regex = new RegExp(`^php\\d{0,2}(-pecl)?-(${module.replaceAll('-', '_')}|${module})(-dev)?$`, 'g')
@@ -61,11 +64,11 @@ const rememberState = (stateToRemember: VscodeRememberedState) => vscodeApi.setS
 const rememberedState = (vscodeApi.getState() || {}) as VscodeRememberedState
 
 export const phpVersion = writable<string>(rememberedState.phpVersion || '')
-export const phpVersions = phpDictionary.baseImages.map((bi) => bi.phpVersion).filter(unique)
-phpReport.subscribe(($phpReport) => {
+export const phpVersions = phpDictionary.baseImages.map(bi => bi.phpVersion).filter(unique)
+phpReport.subscribe($phpReport => {
 	if ($phpReport?.phpVersionFromPackageJson && !get(phpVersion)) {
 		let value = $phpReport.phpVersionFromPackageJson.toFixed(1).toString()
-		if (phpDictionary.baseImages.some((bi) => bi.phpVersion == value)) {
+		if (phpDictionary.baseImages.some(bi => bi.phpVersion == value)) {
 			phpVersion.set(value)
 		} else {
 			expandedBaseImageForm.set(true)
@@ -74,13 +77,13 @@ phpReport.subscribe(($phpReport) => {
 })
 
 export const baseImageName = writable<string>(rememberedState.baseImageName || '')
-export const baseImageNames: Readable<string[]> = derived(phpVersion, ($phpVersion) => {
+export const baseImageNames: Readable<string[]> = derived(phpVersion, $phpVersion => {
 	return phpDictionary.baseImages
-		.filter((bi) => bi.phpVersion == $phpVersion)
-		.map((bi) => bi.baseImageName)
+		.filter(bi => bi.phpVersion == $phpVersion)
+		.map(bi => bi.baseImageName)
 		.filter(unique)
 })
-baseImageNames.subscribe(($baseImageNames) => {
+baseImageNames.subscribe($baseImageNames => {
 	if ($baseImageNames.length == 1) {
 		baseImageName.set($baseImageNames[0])
 	}
@@ -89,21 +92,21 @@ baseImageNames.subscribe(($baseImageNames) => {
 export const baseImageTag = writable<string>(rememberedState.baseImageTag || '')
 export const baseImageTags: Readable<string[]> = derived([phpVersion, baseImageName], ([$phpVersion, $baseImageName]) => {
 	return phpDictionary.baseImages
-		.filter((bi) => bi.phpVersion == $phpVersion && bi.baseImageName == $baseImageName)
-		.map((bi) => bi.baseImageTag)
+		.filter(bi => bi.phpVersion == $phpVersion && bi.baseImageName == $baseImageName)
+		.map(bi => bi.baseImageTag)
 		.filter(unique)
 })
-baseImageTags.subscribe(($baseImageTags) => {
+baseImageTags.subscribe($baseImageTags => {
 	if ($baseImageTags.length > 0) {
 		baseImageTag.set($baseImageTags[0])
 	}
 })
 
 export const baseImage: Readable<BaseImage | undefined> = derived([phpVersion, baseImageName, baseImageTag], ([$phpVersion, $baseImageName, $baseImageTag]) => {
-	return phpDictionary.baseImages.find((bi) => bi.phpVersion == $phpVersion && bi.baseImageName == $baseImageName && bi.baseImageTag == $baseImageTag)
+	return phpDictionary.baseImages.find(bi => bi.phpVersion == $phpVersion && bi.baseImageName == $baseImageName && bi.baseImageTag == $baseImageTag)
 })
 
-export const phpModulesAll: Readable<string[]> = derived(baseImage, ($baseImage) => {
+export const phpModulesAll: Readable<string[]> = derived(baseImage, $baseImage => {
 	if ($baseImage) {
 		return $baseImage.phpPackagesAll.map(apkPackageToPhpModule).concat($baseImage.phpModulesBuiltin).sort()
 	} else {
@@ -117,17 +120,17 @@ export const phpModulesFromRequiredPackagesCbx = writable<boolean>(rememberedSta
 export const phpModulesRecommendedByFrameworkCbx = writable<boolean>(rememberedState.phpModulesRecommendedByFrameworkCbx || true)
 
 // when a form checkbox is on, return array of modules
-export const phpModulesBuiltin: Readable<string[]> = derived(baseImage, ($baseImage) => {
+export const phpModulesBuiltin: Readable<string[]> = derived(baseImage, $baseImage => {
 	return $baseImage !== undefined ? $baseImage.phpModulesBuiltin.sort() : []
 })
 export const phpModulesFromPackageJson: Readable<string[]> = derived([phpReport, phpModulesFromPackageJsonCbx], ([$phpReport, $phpModulesFromPackageJsonCbx]) => {
 	return $phpReport && $phpModulesFromPackageJsonCbx ? $phpReport.phpModulesFromPackageJson.sort() : []
 })
 export const phpModulesFromRequiredPackages: Readable<string[]> = derived([phpReport, phpModulesFromRequiredPackagesCbx], ([$phpReport, $phpModulesFromRequiredPackagesCbx]) => {
-	return $phpReport && $phpModulesFromRequiredPackagesCbx ? $phpReport.phpModulesFromRequiredPackages.map((d) => d.module).sort() : []
+	return $phpReport && $phpModulesFromRequiredPackagesCbx ? $phpReport.phpModulesFromRequiredPackages.map(d => d.module).sort() : []
 })
 export const phpModulesRecommendedByFramework: Readable<string[]> = derived([phpReport, phpModulesRecommendedByFrameworkCbx], ([$phpReport, $phpModulesRecommendedByFrameworkCbx]) => {
-	return $phpReport && $phpModulesRecommendedByFrameworkCbx ? $phpReport.phpModulesRecommendedByFramework.map((d) => d.module).sort() : []
+	return $phpReport && $phpModulesRecommendedByFrameworkCbx ? $phpReport.phpModulesRecommendedByFramework.map(d => d.module).sort() : []
 })
 
 export const phpModulesManuallyAdded = arrayify<string>(writable<string[]>(rememberedState.phpModulesManuallyAdded || []))
@@ -146,20 +149,20 @@ export const phpModulesManuallyAddedToView: Readable<string[]> = derived(
 	[phpModulesManuallyAdded, phpModulesBuiltin, phpModulesFromPackageJson, phpModulesFromRequiredPackages, phpModulesRecommendedByFramework],
 	([$phpModulesManuallyAdded, $phpModulesBuiltin, $phpModulesFromPackageJson, $phpModulesFromRequiredPackages, $phpModulesRecommendedByFramework]) => {
 		return $phpModulesManuallyAdded.filter(
-			(m) => !($phpModulesBuiltin.includes(m) || $phpModulesFromPackageJson.includes(m) || $phpModulesFromRequiredPackages.includes(m) || $phpModulesRecommendedByFramework.includes(m))
+			m => !($phpModulesBuiltin.includes(m) || $phpModulesFromPackageJson.includes(m) || $phpModulesFromRequiredPackages.includes(m) || $phpModulesRecommendedByFramework.includes(m))
 		)
 	}
 )
 
 // when a form checkbox is on, and some modules are going to be added in the checked modules, remove them from manually excluded
-phpModulesFromPackageJson.subscribe((addingThem) => phpModulesManuallyExcluded.update((arr) => arr.filter((m) => !addingThem.includes(m))))
-phpModulesFromRequiredPackages.subscribe((addingThem) => phpModulesManuallyExcluded.update((arr) => arr.filter((m) => !addingThem.includes(m))))
-phpModulesRecommendedByFramework.subscribe((addingThem) => phpModulesManuallyExcluded.update((arr) => arr.filter((m) => !addingThem.includes(m))))
+phpModulesFromPackageJson.subscribe(addingThem => phpModulesManuallyExcluded.update(arr => arr.filter(m => !addingThem.includes(m))))
+phpModulesFromRequiredPackages.subscribe(addingThem => phpModulesManuallyExcluded.update(arr => arr.filter(m => !addingThem.includes(m))))
+phpModulesRecommendedByFramework.subscribe(addingThem => phpModulesManuallyExcluded.update(arr => arr.filter(m => !addingThem.includes(m))))
 
-baseImage.subscribe(($baseImage) => {
+baseImage.subscribe($baseImage => {
 	if ($baseImage) {
-		phpModulesManuallyExcluded.update((arr) => arr.filter((m) => !$baseImage.phpModulesBuiltin.includes(m)))
-		phpModulesManuallyAdded.update((arr) => arr.filter((m) => !$baseImage.phpModulesBuiltin.includes(m)))
+		phpModulesManuallyExcluded.update(arr => arr.filter(m => !$baseImage.phpModulesBuiltin.includes(m)))
+		phpModulesManuallyAdded.update(arr => arr.filter(m => !$baseImage.phpModulesBuiltin.includes(m)))
 	}
 })
 
@@ -168,33 +171,33 @@ export const phpModulesChecked = derived(
 	[phpModulesBuiltin, phpModulesFromPackageJson, phpModulesFromRequiredPackages, phpModulesRecommendedByFramework, phpModulesManuallyAdded, phpModulesManuallyExcluded],
 	([$phpModulesBuiltin, $phpModulesFromPackageJson, $phpModulesFromRequiredPackages, $phpModulesRecommendedByFramework, $phpModulesManuallyAdded, $phpModulesManuallyExcluded]) => {
 		return [...new Set([...$phpModulesBuiltin, ...$phpModulesFromPackageJson, ...$phpModulesFromRequiredPackages, ...$phpModulesRecommendedByFramework, ...$phpModulesManuallyAdded])].filter(
-			(m) => !$phpModulesManuallyExcluded.includes(m)
+			m => !$phpModulesManuallyExcluded.includes(m)
 		)
 	}
 )
 
 export const phpModulesFromPackageJsonExcluded: Readable<string[]> = derived([phpModulesChecked, phpModulesFromPackageJson], ([$phpModulesChecked, $phpModulesFromPackageJson]) => {
-	return $phpModulesFromPackageJson.filter((m) => !$phpModulesChecked.includes(m))
+	return $phpModulesFromPackageJson.filter(m => !$phpModulesChecked.includes(m))
 })
-export const phpModulesFromPackageJsonCbxIndeterminate = derived(phpModulesFromPackageJsonExcluded, ($phpModulesFromPackageJsonExcluded) => $phpModulesFromPackageJsonExcluded.length != 0)
+export const phpModulesFromPackageJsonCbxIndeterminate = derived(phpModulesFromPackageJsonExcluded, $phpModulesFromPackageJsonExcluded => $phpModulesFromPackageJsonExcluded.length != 0)
 
 export const phpModulesFromRequiredPackagesExcluded: Readable<string[]> = derived([phpModulesChecked, phpModulesFromRequiredPackages], ([$phpModulesChecked, $phpModulesFromRequiredPackages]) => {
-	return $phpModulesFromRequiredPackages.filter((m) => !$phpModulesChecked.includes(m))
+	return $phpModulesFromRequiredPackages.filter(m => !$phpModulesChecked.includes(m))
 })
 export const phpModulesFromRequiredPackagesCbxIndeterminate = derived(
 	phpModulesFromRequiredPackagesExcluded,
-	($phpModulesFromRequiredPackagesExcluded) => $phpModulesFromRequiredPackagesExcluded.length != 0
+	$phpModulesFromRequiredPackagesExcluded => $phpModulesFromRequiredPackagesExcluded.length != 0
 )
 
 export const phpModulesRecommendedByFrameworkExcluded: Readable<string[]> = derived(
 	[phpModulesChecked, phpModulesRecommendedByFramework],
 	([$phpModulesChecked, $phpModulesRecommendedByFramework]) => {
-		return $phpModulesRecommendedByFramework.filter((m) => !$phpModulesChecked.includes(m))
+		return $phpModulesRecommendedByFramework.filter(m => !$phpModulesChecked.includes(m))
 	}
 )
 export const phpModulesRecommendedByFrameworkCbxIndeterminate = derived(
 	phpModulesRecommendedByFrameworkExcluded,
-	($phpModulesRecommendedByFrameworkExcluded) => $phpModulesRecommendedByFrameworkExcluded.length != 0
+	$phpModulesRecommendedByFrameworkExcluded => $phpModulesRecommendedByFrameworkExcluded.length != 0
 )
 
 export const phpPackagesToInstall = derived([baseImage, phpModulesChecked, phpModulesBuiltin], ([$baseImage, $phpModulesChecked, $phpModulesBuiltin]) => {
@@ -202,9 +205,9 @@ export const phpPackagesToInstall = derived([baseImage, phpModulesChecked, phpMo
 		return [
 			$baseImage.apkPhpPackage,
 			...$phpModulesChecked
-				.filter((m) => !$phpModulesBuiltin.includes(m))
-				.flatMap((phpModuleName) => {
-					return [$baseImage.phpPackagesAll.find(doesApkPackageMatchPhpModule(phpModuleName))].filter((x) => x)
+				.filter(m => !$phpModulesBuiltin.includes(m))
+				.flatMap(phpModuleName => {
+					return [$baseImage.phpPackagesAll.find(doesApkPackageMatchPhpModule(phpModuleName))].filter(x => x)
 				})
 				.sort(),
 		]
@@ -214,27 +217,27 @@ export const phpPackagesToInstall = derived([baseImage, phpModulesChecked, phpMo
 })
 
 export const documentRoot = writable<string>(rememberedState.documentRoot || '')
-phpReport.subscribe(($phpReport) => {
+phpReport.subscribe($phpReport => {
 	if ($phpReport?.documentRoot && !get(documentRoot)) {
 		documentRoot.set($phpReport.documentRoot)
 	}
 })
 
 export const frontController = writable<string>(rememberedState.frontController || '')
-phpReport.subscribe(($phpReport) => {
+phpReport.subscribe($phpReport => {
 	if ($phpReport?.frontController && !get(frontController)) {
 		frontController.set($phpReport.frontController)
 	}
 })
 
 export const phpPathsForBuildText = writable<string>(rememberedState.phpPathsForBuildText || '')
-phpReport.subscribe(($phpReport) => {
+phpReport.subscribe($phpReport => {
 	if ($phpReport?.pathsForBuild.length && !get(phpPathsForBuildText)) {
 		phpPathsForBuildText.set($phpReport.pathsForBuild.join('\n'))
 	}
 })
-export const phpPathsForBuild: Readable<string[]> = derived(phpPathsForBuildText, ($phpPathsForBuildText) => {
-	return $phpPathsForBuildText.split('\n').filter((x) => x)
+export const phpPathsForBuild: Readable<string[]> = derived(phpPathsForBuildText, $phpPathsForBuildText => {
+	return $phpPathsForBuildText.split('\n').filter(x => x)
 })
 
 export const nodeImages = [
@@ -251,16 +254,16 @@ export const jsBuildCommand = writable<string>(rememberedState.jsBuildCommand ||
 export const jsNodeImageTag = writable<string>(rememberedState.jsNodeImageTag || '')
 
 export const jsOutPathsText = writable<string>(rememberedState.jsOutPathsText || '')
-export const jsOutPaths: Readable<string[]> = derived(jsOutPathsText, ($jsOutPathsText) => {
-	return $jsOutPathsText.split('\n').filter((x) => x)
+export const jsOutPaths: Readable<string[]> = derived(jsOutPathsText, $jsOutPathsText => {
+	return $jsOutPathsText.split('\n').filter(x => x)
 })
 
 export const jsPathsForBuildText = writable<string>(rememberedState.jsPathsForBuildText || '')
-export const jsPathsForBuild: Readable<string[]> = derived(jsPathsForBuildText, ($jsPathsForBuildText) => {
-	return $jsPathsForBuildText.split('\n').filter((x) => x)
+export const jsPathsForBuild: Readable<string[]> = derived(jsPathsForBuildText, $jsPathsForBuildText => {
+	return $jsPathsForBuildText.split('\n').filter(x => x)
 })
 
-jsReport.subscribe(($jsReport) => {
+jsReport.subscribe($jsReport => {
 	if ($jsReport && get(jsBuildStage) === undefined) {
 		if ($jsReport.hasPackageJson) {
 			jsBuildStage.set(true)
@@ -268,13 +271,13 @@ jsReport.subscribe(($jsReport) => {
 		}
 	}
 	if ($jsReport && !get(jsBuildCommand)) {
-		let foundRunScript = $jsReport.npmRunScripts.find((s) => s.includes('prod')) || $jsReport.npmRunScripts.find((s) => s.includes('build')) || $jsReport.npmRunScripts.at(0)
+		let foundRunScript = $jsReport.npmRunScripts.find(s => s.includes('prod')) || $jsReport.npmRunScripts.find(s => s.includes('build')) || $jsReport.npmRunScripts.at(0)
 		if (foundRunScript) {
 			jsBuildCommand.set(`npm run ${foundRunScript}`)
 		}
 	}
 	if ($jsReport && !get(jsNodeImageTag)) {
-		let foundNodeImage = nodeImages.find((ni) => ni.nodeVersion == $jsReport.nodeVersionFromPackageJson) || nodeImages.find((ni) => ni.nodeVersion == 18)
+		let foundNodeImage = nodeImages.find(ni => ni.nodeVersion == $jsReport.nodeVersionFromPackageJson) || nodeImages.find(ni => ni.nodeVersion == 18)
 		if (foundNodeImage) {
 			jsNodeImageTag.set(foundNodeImage.tag)
 		}
@@ -291,18 +294,18 @@ jsReport.subscribe(($jsReport) => {
 })
 
 export const writablePathsText = writable<string>(rememberedState.writablePathsText || '')
-containerReport.subscribe(($containerReport) => {
+containerReport.subscribe($containerReport => {
 	if ($containerReport?.writablePaths.length && !get(writablePathsText)) {
 		writablePathsText.set($containerReport.writablePaths.join('\n'))
 	}
 })
-export const writablePaths: Readable<string[]> = derived(writablePathsText, ($writablePathsText) => {
-	return $writablePathsText.split('\n').filter((x) => x)
+export const writablePaths: Readable<string[]> = derived(writablePathsText, $writablePathsText => {
+	return $writablePathsText.split('\n').filter(x => x)
 })
 
 export const dockerIgnoreText = writable<string>(rememberedState.dockerIgnoreText || '')
 export const dockerIgnoreIsExisting = writable<boolean>(undefined)
-containerReport.subscribe(($containerReport) => {
+containerReport.subscribe($containerReport => {
 	if ($containerReport?.dockerIgnoreExistingText) {
 		dockerIgnoreIsExisting.set(true)
 		if (!get(dockerIgnoreText)) {
@@ -317,13 +320,13 @@ containerReport.subscribe(($containerReport) => {
 })
 export function appendDockerIgnoreProposedLines() {
 	if (get(containerReport)?.dockerIgnoreProposedLines.length) {
-		dockerIgnoreText.update(($dockerIgnoreText) => {
+		dockerIgnoreText.update($dockerIgnoreText => {
 			return $dockerIgnoreText + ['', '', '#guessed from all .gitignore files found in the sources', ...get(containerReport).dockerIgnoreProposedLines].join('\n')
 		})
 	}
 }
 
-const serverPackagesToInstall: Readable<string[]> = derived(baseImage, ($baseImage) => {
+const serverPackagesToInstall: Readable<string[]> = derived(baseImage, $baseImage => {
 	return $baseImage ? ['unit', $baseImage.apkUnitPackage] : []
 })
 

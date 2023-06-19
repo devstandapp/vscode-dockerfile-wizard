@@ -104,7 +104,7 @@ class Messenger {
 		} else if (message.is == 'request' && message.from === 'webview') {
 			this.facade[message.command]
 				.apply(this.facade, [message.payload])
-				.then((responseFromFacade) => {
+				.then(responseFromFacade => {
 					this.sender.postMessage({
 						is: 'response',
 						from: 'extension',
@@ -181,7 +181,7 @@ class Messenger {
 	}
 
 	private removeListener(disposable: vscode.Disposable) {
-		let givenDisposableIndex = this.disposables.findIndex((given) => given === disposable)
+		let givenDisposableIndex = this.disposables.findIndex(given => given === disposable)
 		if (givenDisposableIndex > -1) {
 			this.disposables[givenDisposableIndex].dispose()
 			this.disposables.splice(givenDisposableIndex, 1)

@@ -16,7 +16,7 @@ export class DockerfilePreviewProvider implements vscode.TextDocumentContentProv
 		this.onDidChange = this.eeDidChange.event
 
 		this.disposables.push(
-			assemblyWizardPanelProvider.onDidChangeFormResult((panelKey) => {
+			assemblyWizardPanelProvider.onDidChangeFormResult(panelKey => {
 				let uri = vscode.Uri.parse(`${DockerfilePreviewProvider.scheme}://${panelKey}/Preview`)
 				this.eeDidChange.fire(uri)
 			})

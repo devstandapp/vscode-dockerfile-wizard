@@ -43,7 +43,7 @@
 		"build:assembly": "vite build --config vite/assembly.vite.config.ts",
 		"watch:assembly": "npm run build:assembly -- --watch --sourcemap --minify false",
 		"vscode:prepublish": "npm run dist",
-		"format": "npx rome format --write ./src ./*.mjs",
+		"format": "npx prettier --write --loglevel warn ./src ./*.mjs",
 		"check": "svelte-check --tsconfig ./tsconfig.json"
 	},
 	"devDependencies": {
@@ -52,6 +52,8 @@
 		"@types/vscode": "1.75.1",
 		"@vscode/codicons": "0.0.27",
 		"esbuild": "^0.16.17",
+		"prettier": "^2.8.8",
+		"prettier-plugin-svelte": "^2.10.1",
 		"rome": "12.1.3",
 		"svelte": "^3.55.1",
 		"svelte-check": "^2.10.3",

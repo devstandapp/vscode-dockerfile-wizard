@@ -25,7 +25,8 @@ export function arrayify<T>(store: Readable<T[]>) {
 	if ('update' in store && typeof store.update == 'function') {
 		store['delete'] = (value: T | undefined): void => {
 			if (value !== undefined && get(store).includes(value)) {
-				(store as Writable<T[]>).update((arr) => {
+				// rome-ignore lint/complexity/noExtraSemicolon: prettier
+				;(store as Writable<T[]>).update(arr => {
 					arr.splice(arr.indexOf(value), 1)
 					return arr
 				})
@@ -33,7 +34,8 @@ export function arrayify<T>(store: Readable<T[]>) {
 		}
 		store['add'] = (value: T | undefined): void => {
 			if (value !== undefined && !get(store).includes(value)) {
-				(store as Writable<T[]>).update((arr) => {
+				// rome-ignore lint/complexity/noExtraSemicolon: prettier
+				;(store as Writable<T[]>).update(arr => {
 					arr.push(value)
 					return arr
 				})

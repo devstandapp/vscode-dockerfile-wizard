@@ -1,0 +1,22 @@
+{
+	"arrowParens": "avoid",
+	"bracketSameLine": false,
+	"bracketSpacing": true,
+	"embeddedLanguageFormatting": "auto",
+	"endOfLine": "lf",
+	"htmlWhitespaceSensitivity": "ignore",
+	"insertPragma": false,
+	"printWidth": 200,
+	"proseWrap": "preserve",
+	"quoteProps": "as-needed",
+	"requirePragma": false,
+	"semi": false,
+	"singleAttributePerLine": false,
+	"singleQuote": true,
+	"svelteAllowShorthand": true,
+	"svelteIndentScriptAndStyle": false,
+	"svelteSortOrder" : "options-scripts-markup-styles",
+	"svelteStrictMode": false,
+	"trailingComma": "es5",
+	"useTabs": true
+}
