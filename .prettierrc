@@ -14,7 +14,7 @@
 	"singleAttributePerLine": false,
 	"singleQuote": true,
 	"svelteAllowShorthand": true,
-	"svelteIndentScriptAndStyle": false,
+	"svelteIndentScriptAndStyle": true,
 	"svelteSortOrder" : "options-scripts-markup-styles",
 	"svelteStrictMode": false,
 	"trailingComma": "es5",

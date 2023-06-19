@@ -9,42 +9,28 @@
 	import DockerIgnoreForm from './DockerIgnoreForm.svelte'
 	import JsSourcesForm from './JsSourcesForm.svelte'
 	import WebServerForm from './WebServerForm.svelte'
-
 </script>
 
 <div class="flex flex-col">
-
 	<BaseImageForm />
 
 	{#if $baseImage !== undefined}
-
 		{#if $phpReport !== undefined}
-
 			<PhpModulesForm />
 
 			<WebServerForm />
 
 			<PhpSourcesForm />
-
 		{/if}
-
 
 		{#if $jsReport !== undefined}
-
 			<JsSourcesForm />
-
 		{/if}
-
 
 		<WritablePathsForm />
 
-
 		{#if $containerReport !== undefined}
-
 			<DockerIgnoreForm />
-
 		{/if}
-
 	{/if}
-
 </div>

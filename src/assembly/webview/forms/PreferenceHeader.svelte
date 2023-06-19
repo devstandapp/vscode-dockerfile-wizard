@@ -5,34 +5,29 @@
 
 	export let expanded: boolean
 	function toggleExpanded() {
-		expanded = ! expanded
+		expanded = !expanded
 	}
 </script>
 
 <div class="-m-4 flex">
-	<div class="p-4 cursor-pointer"
-		class:grow={!expanded}
-		on:click={toggleExpanded}
-		>
-		<div class="color-preferenceHeader bold"><slot></slot></div>
+	<div class="p-4 cursor-pointer" class:grow={!expanded} on:click={toggleExpanded}>
+		<div class="color-preferenceHeader bold"><slot /></div>
 	</div>
-	<div class:grow={expanded}></div>
-	<div class="px-4 inline-flex items-center cursor-pointer PreferenceToggleIcon"
-		on:click={toggleExpanded}>
-		<Icon svg={ expanded ? iconChevronDown : iconChevronRight } class="icon" />
+	<div class:grow={expanded} />
+	<div class="px-4 inline-flex items-center cursor-pointer PreferenceToggleIcon" on:click={toggleExpanded}>
+		<Icon svg={expanded ? iconChevronDown : iconChevronRight} class="icon" />
 	</div>
 </div>
 
-
 <style>
-.color-preferenceHeader {
-	color: var(--vscode-settings-headerForeground);
-}
-.PreferenceToggleIcon {
-	visibility: hidden;
-}
-:global(.bg-preference:hover) .PreferenceToggleIcon,
-:global(.bg-preference:focus-within) .PreferenceToggleIcon {
-	visibility: visible;
-}
+	.color-preferenceHeader {
+		color: var(--vscode-settings-headerForeground);
+	}
+	.PreferenceToggleIcon {
+		visibility: hidden;
+	}
+	:global(.bg-preference:hover) .PreferenceToggleIcon,
+	:global(.bg-preference:focus-within) .PreferenceToggleIcon {
+		visibility: visible;
+	}
 </style>

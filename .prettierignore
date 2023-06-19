@@ -5,5 +5,3 @@ src/assembly/extension/assemble.ts
 *.yml
 *.yaml
 *.css
-
-*.svelte
