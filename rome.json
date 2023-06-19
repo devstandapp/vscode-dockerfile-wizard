@@ -18,9 +18,19 @@
 		"lineWidth": 200
 	},
 	"linter": {
-		"enabled": false,
+		"enabled": true,
 		"rules": {
-			"recommended": true
+			"recommended": true,
+			"suspicious": {
+				"noDoubleEquals": "off",
+				"noExplicitAny": "off"
+			},
+			"style": {
+				"noParameterAssign": "off",
+				"noInferrableTypes": "off",
+				"useConst": "off",
+				"useTemplate": "off"
+			}
 		}
 	},
 	"javascript": {

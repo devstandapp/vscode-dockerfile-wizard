@@ -9,7 +9,8 @@ export function dummyFindMajorMinorVersions(range: string): number[] {
 	const regex = /(^|[^\.\d])(?<MAJMINVER>\d{1,}(\.\d{1,})?)/gm
 	const foundVersions: Set<number> = new Set()
 	let m: RegExpExecArray | null
-	while ((m = regex.exec(range)) !== null) {
+	// rome-ignore lint/suspicious/noAssignInExpressions: <explanation>
+	while  ((m = regex.exec(range)) !== null) {
 		if (m.index === regex.lastIndex) {
 			regex.lastIndex++
 		}

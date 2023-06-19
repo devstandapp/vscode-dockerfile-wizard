@@ -69,7 +69,7 @@ export class AssemblyWizardPanelProvider {
 				return this.repositoryReport
 			},
 			formResultChanged: (payload) => {
-				if (payload && payload.panelKey && !panelKey) {
+				if (payload?.panelKey && !panelKey) {
 					panelKey = payload.panelKey
 				}
 				if (payload) {

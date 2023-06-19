@@ -63,7 +63,7 @@ const rememberedState = (vscodeApi.getState() || {}) as VscodeRememberedState
 export const phpVersion = writable<string>(rememberedState.phpVersion || '')
 export const phpVersions = phpDictionary.baseImages.map((bi) => bi.phpVersion).filter(unique)
 phpReport.subscribe(($phpReport) => {
-	if ($phpReport && $phpReport.phpVersionFromPackageJson && !get(phpVersion)) {
+	if ($phpReport?.phpVersionFromPackageJson && !get(phpVersion)) {
 		let value = $phpReport.phpVersionFromPackageJson.toFixed(1).toString()
 		if (phpDictionary.baseImages.some((bi) => bi.phpVersion == value)) {
 			phpVersion.set(value)
@@ -215,21 +215,21 @@ export const phpPackagesToInstall = derived([baseImage, phpModulesChecked, phpMo
 
 export const documentRoot = writable<string>(rememberedState.documentRoot || '')
 phpReport.subscribe(($phpReport) => {
-	if ($phpReport && $phpReport.documentRoot && !get(documentRoot)) {
+	if ($phpReport?.documentRoot && !get(documentRoot)) {
 		documentRoot.set($phpReport.documentRoot)
 	}
 })
 
 export const frontController = writable<string>(rememberedState.frontController || '')
 phpReport.subscribe(($phpReport) => {
-	if ($phpReport && $phpReport.frontController && !get(frontController)) {
+	if ($phpReport?.frontController && !get(frontController)) {
 		frontController.set($phpReport.frontController)
 	}
 })
 
 export const phpPathsForBuildText = writable<string>(rememberedState.phpPathsForBuildText || '')
 phpReport.subscribe(($phpReport) => {
-	if ($phpReport && $phpReport.pathsForBuild.length && !get(phpPathsForBuildText)) {
+	if ($phpReport?.pathsForBuild.length && !get(phpPathsForBuildText)) {
 		phpPathsForBuildText.set($phpReport.pathsForBuild.join('\n'))
 	}
 })
@@ -279,20 +279,20 @@ jsReport.subscribe(($jsReport) => {
 			jsNodeImageTag.set(foundNodeImage.tag)
 		}
 	}
-	if ($jsReport && $jsReport.outPaths.length && !get(jsOutPathsText)) {
+	if ($jsReport?.outPaths.length && !get(jsOutPathsText)) {
 		jsOutPathsText.set($jsReport.outPaths.join('\n'))
 	}
-	if ($jsReport && $jsReport.npmRunScripts.length) {
+	if ($jsReport?.npmRunScripts.length) {
 		npmRunScripts.set($jsReport.npmRunScripts)
 	}
-	if ($jsReport && $jsReport.pathsForBuild.length && !get(jsPathsForBuildText)) {
+	if ($jsReport?.pathsForBuild.length && !get(jsPathsForBuildText)) {
 		jsPathsForBuildText.set($jsReport.pathsForBuild.join('\n'))
 	}
 })
 
 export const writablePathsText = writable<string>(rememberedState.writablePathsText || '')
 containerReport.subscribe(($containerReport) => {
-	if ($containerReport && $containerReport.writablePaths.length && !get(writablePathsText)) {
+	if ($containerReport?.writablePaths.length && !get(writablePathsText)) {
 		writablePathsText.set($containerReport.writablePaths.join('\n'))
 	}
 })
@@ -303,12 +303,12 @@ export const writablePaths: Readable<string[]> = derived(writablePathsText, ($wr
 export const dockerIgnoreText = writable<string>(rememberedState.dockerIgnoreText || '')
 export const dockerIgnoreIsExisting = writable<boolean>(undefined)
 containerReport.subscribe(($containerReport) => {
-	if ($containerReport && $containerReport.dockerIgnoreExistingText) {
+	if ($containerReport?.dockerIgnoreExistingText) {
 		dockerIgnoreIsExisting.set(true)
 		if (!get(dockerIgnoreText)) {
 			dockerIgnoreText.set($containerReport.dockerIgnoreExistingText)
 		}
-	} else if ($containerReport && $containerReport.dockerIgnoreProposedLines.length) {
+	} else if ($containerReport?.dockerIgnoreProposedLines.length) {
 		dockerIgnoreIsExisting.set(false)
 		if (!get(dockerIgnoreText)) {
 			dockerIgnoreText.set($containerReport.dockerIgnoreProposedLines.join('\n'))
@@ -316,7 +316,7 @@ containerReport.subscribe(($containerReport) => {
 	}
 })
 export function appendDockerIgnoreProposedLines() {
-	if (get(containerReport) && get(containerReport).dockerIgnoreProposedLines.length) {
+	if (get(containerReport)?.dockerIgnoreProposedLines.length) {
 		dockerIgnoreText.update(($dockerIgnoreText) => {
 			return $dockerIgnoreText + ['', '', '#guessed from all .gitignore files found in the sources', ...get(containerReport).dockerIgnoreProposedLines].join('\n')
 		})

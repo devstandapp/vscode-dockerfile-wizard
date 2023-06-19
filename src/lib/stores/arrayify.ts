@@ -23,24 +23,22 @@ export function arrayify<T>(store: Readable<T[]>) {
 	store['filter'] = (predicate: (item: T) => unknown): T[] => get(store).filter(predicate)
 	store['includes'] = (value: T | undefined): boolean => get(store).includes(value)
 	if ('update' in store && typeof store.update == 'function') {
-		;((writableStore) => {
-			writableStore['delete'] = (value: T | undefined): void => {
-				if (value !== undefined && get(writableStore).includes(value)) {
-					writableStore.update((arr) => {
-						arr.splice(arr.indexOf(value), 1)
-						return arr
-					})
-				}
+		store['delete'] = (value: T | undefined): void => {
+			if (value !== undefined && get(store).includes(value)) {
+				(store as Writable<T[]>).update((arr) => {
+					arr.splice(arr.indexOf(value), 1)
+					return arr
+				})
 			}
-			writableStore['add'] = (value: T | undefined): void => {
-				if (value !== undefined && !get(writableStore).includes(value)) {
-					writableStore.update((arr) => {
-						arr.push(value)
-						return arr
-					})
-				}
+		}
+		store['add'] = (value: T | undefined): void => {
+			if (value !== undefined && !get(store).includes(value)) {
+				(store as Writable<T[]>).update((arr) => {
+					arr.push(value)
+					return arr
+				})
 			}
-		})(store as Writable<T[]>)
+		}
 	}
 	return store
 }

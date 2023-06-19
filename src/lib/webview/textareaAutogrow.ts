@@ -20,10 +20,11 @@ export default function (textareaElement: HTMLTextAreaElement) {
 		}
 	}
 
-	let msCallEvery = 50,
-		msPassed = 0,
-		msStopAfter = 2000
-	let pollInitialValueInterval = setInterval(() => {
+	const msCallEvery = 50
+	let msPassed = 0
+	const msStopAfter = 2000
+
+	const pollInitialValueInterval = setInterval(() => {
 		if (textareaElement.value.length > 0) {
 			fitHeightAfterTick()
 		}

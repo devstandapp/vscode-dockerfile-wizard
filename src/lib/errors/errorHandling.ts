@@ -41,7 +41,7 @@ export function convertPayloadToErr(err: string | object): Error | object {
 				error.message = ''
 			} else {
 				let matches = err.toString().match(/^(?<name>[a-z]{1,}):\s(?<message>.*)/im)
-				if (matches && matches.groups && matches.groups.name && matches.groups.message) {
+				if (matches?.groups?.name && matches.groups.message) {
 					error.name = matches.groups.name
 					error.message = matches.groups.message
 				}

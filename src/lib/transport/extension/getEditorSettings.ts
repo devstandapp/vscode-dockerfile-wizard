@@ -16,7 +16,8 @@ export function getEditorSettings(): EditorSettings {
 }
 
 function actualLineHeight(fontSize: number, lineHeightSetting: number) {
-	let lineHeight: number, lineHeightFraction: number
+	let lineHeight: number
+	let lineHeightFraction: number
 	if (lineHeightSetting < 8) {
 		lineHeightFraction = lineHeightSetting == 0 ? 1.5 : lineHeightSetting
 		lineHeight = Math.round(fontSize * lineHeightFraction)
