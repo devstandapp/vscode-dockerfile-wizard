@@ -18,9 +18,7 @@ class VsCodeApi implements VsCodeApiInterface {
 		}
 	}
 	postMessage(data: any) {
-		this.acquired
-			? this.api.postMessage(data)
-			: window.postMessage(data)
+		this.acquired ? this.api.postMessage(data) : window.postMessage(data)
 	}
 	getState<T extends object>(): T | undefined {
 		if (this.acquired) {

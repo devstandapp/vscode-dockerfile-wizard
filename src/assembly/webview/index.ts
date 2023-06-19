@@ -12,7 +12,7 @@ import '../../lib/webview/css/utilities.css'
 import WebviewAssemblyWizard from './WebviewAssemblyWizard.svelte'
 
 const app = new WebviewAssemblyWizard({
-	target: document.body
+	target: document.body,
 })
 
 export default app

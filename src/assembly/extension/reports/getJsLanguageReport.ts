@@ -2,7 +2,7 @@ import vscode from 'vscode'
 import type { JsLanguageReport } from '../../sharedTypes'
 import { fileExists, readJsonFile } from './utils'
 
-export default async function(folder: vscode.WorkspaceFolder, rootDirectoryListing: [string, vscode.FileType][], excludePattern: string): Promise<JsLanguageReport> {
+export default async function (folder: vscode.WorkspaceFolder, rootDirectoryListing: [string, vscode.FileType][], excludePattern: string): Promise<JsLanguageReport> {
 	const report: JsLanguageReport = {
 		language: 'js',
 		pathsForBuild: [],
@@ -20,15 +20,13 @@ export default async function(folder: vscode.WorkspaceFolder, rootDirectoryListi
 	report.hasPackageLock = fileExists('package-lock.json', rootDirectoryListing)
 	report.hasYarnLock = fileExists('yarn.lock', rootDirectoryListing)
 
-	const packageJson = report.hasPackageJson
-		? await readJsonFile(vscode.Uri.joinPath(folder.uri, 'package.json')) : undefined
+	const packageJson = report.hasPackageJson ? await readJsonFile(vscode.Uri.joinPath(folder.uri, 'package.json')) : undefined
 
-	report.npmRunScripts = (packageJson && typeof packageJson['scripts'] == 'object')
-		? Object.keys(packageJson['scripts']) : []
+	report.npmRunScripts = packageJson && typeof packageJson['scripts'] == 'object' ? Object.keys(packageJson['scripts']) : []
 
-	const topLevelDirectories = rootDirectoryListing.flatMap(([path, type]) => type == vscode.FileType.Directory ? [path] : [])
+	const topLevelDirectories = rootDirectoryListing.flatMap(([path, type]) => (type == vscode.FileType.Directory ? [path] : []))
 	for (let directory of topLevelDirectories) {
-		let foundFrontendFiles = (await vscode.workspace.findFiles(new vscode.RelativePattern(folder, `${directory}/**/*.{js,css,ts,scss}`), excludePattern, 1))
+		let foundFrontendFiles = await vscode.workspace.findFiles(new vscode.RelativePattern(folder, `${directory}/**/*.{js,css,ts,scss}`), excludePattern, 1)
 		if (foundFrontendFiles.length > 0) {
 			report.pathsWithSources.push(directory)
 		}

@@ -1,0 +1,34 @@
+{
+	"$schema": "https://docs.rome.tools/schemas/12.1.3/schema.json",
+	"files": {
+		"ignore": [
+			"dist/**/*",
+			"node_modules/**/*"
+		]
+	},
+	"organizeImports": {
+		"enabled": false
+	},
+	"formatter": {
+		"enabled": true,
+		"ignore": [
+			"src/assembly/extension/assemble.ts"
+		],
+		"indentStyle": "tab",
+		"lineWidth": 200
+	},
+	"linter": {
+		"enabled": false,
+		"rules": {
+			"recommended": true
+		}
+	},
+	"javascript": {
+		"formatter": {
+			"quoteStyle": "single",
+			"quoteProperties": "asNeeded",
+			"trailingComma": "es5",
+			"semicolons": "asNeeded"
+		}
+	}
+}

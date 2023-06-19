@@ -8,7 +8,7 @@ import updateReportsForLaravel from './updateReportsForLaravel'
 import getContainerLanguageReport from './getContainerLanguageReport'
 import { getWorkspaceFolder } from '../../../lib/extension/getWorkspaceFolder'
 
-export default async function(): Promise<RepositoryReport> {
+export default async function (): Promise<RepositoryReport> {
 	const folder = getWorkspaceFolder()
 	const rootDirectoryListing = await vscode.workspace.fs.readDirectory(folder.uri)
 	const { excludePattern } = await makeExclude(folder, rootDirectoryListing)
@@ -19,7 +19,7 @@ export default async function(): Promise<RepositoryReport> {
 	}
 
 	const languages = await Promise.allSettled(
-		preflight.detected.map(language => {
+		preflight.detected.map((language) => {
 			if (language == 'container') {
 				return getContainerLanguageReport(folder, rootDirectoryListing, excludePattern)
 			} else if (language == 'js') {
@@ -30,14 +30,13 @@ export default async function(): Promise<RepositoryReport> {
 				throw new Error('unknown language')
 			}
 		})
-	).then(results => {
-		return (results.filter(r => r.status == 'fulfilled') as PromiseFulfilledResult<LanguageReport>[])
-			.map(result => result.value)
+	).then((results) => {
+		return (results.filter((r) => r.status == 'fulfilled') as PromiseFulfilledResult<LanguageReport>[]).map((result) => result.value)
 	})
 
-	const phpReport = languages.find(r => r.language == 'php') as PhpLanguageReport
-	const jsReport = languages.find(r => r.language == 'js') as JsLanguageReport
-	const containerReport = languages.find(r => r.language == 'container') as ContainerLanguageReport
+	const phpReport = languages.find((r) => r.language == 'php') as PhpLanguageReport
+	const jsReport = languages.find((r) => r.language == 'js') as JsLanguageReport
+	const containerReport = languages.find((r) => r.language == 'container') as ContainerLanguageReport
 
 	if (preflight.primary == 'php' && phpReport && (phpReport.framework == 'laravel' || phpReport.framework == 'lumen')) {
 		await updateReportsForLaravel(folder, rootDirectoryListing, excludePattern, containerReport, phpReport, jsReport)

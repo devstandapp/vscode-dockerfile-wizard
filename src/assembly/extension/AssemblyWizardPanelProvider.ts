@@ -18,9 +18,7 @@ export class AssemblyWizardPanelProvider {
 	private formResults: Map<string, AssemblyFormResult> = new Map()
 	public repositoryReport: RepositoryReport
 
-	constructor(
-		private extensionUri: vscode.Uri,
-	) {
+	constructor(private extensionUri: vscode.Uri) {
 		this.eeDidChangeFormResult = new vscode.EventEmitter<string>()
 		this.disposables.push(this.eeDidChangeFormResult)
 		this.onDidChangeFormResult = this.eeDidChangeFormResult.event
@@ -31,13 +29,14 @@ export class AssemblyWizardPanelProvider {
 	}
 
 	private bootstrap(folder: vscode.Uri, panel: vscode.WebviewPanel) {
-
 		const disposables: { dispose: () => any }[] = []
 
 		const messenger = new Messenger()
 		messenger.useErrorHandler((err: Error | object, message: MessengerMessage) => {
-			if (! shouldReportError(err)) { return }
-			vscode.window.showErrorMessage((err instanceof Error) ? err.toString() : 'Thrown object: '+JSON.stringify(err))
+			if (!shouldReportError(err)) {
+				return
+			}
+			vscode.window.showErrorMessage(err instanceof Error ? err.toString() : 'Thrown object: ' + JSON.stringify(err))
 		})
 
 		const webview: WebviewInterface = {
@@ -70,7 +69,7 @@ export class AssemblyWizardPanelProvider {
 				return this.repositoryReport
 			},
 			formResultChanged: (payload) => {
-				if (payload && payload.panelKey && ! panelKey) {
+				if (payload && payload.panelKey && !panelKey) {
 					panelKey = payload.panelKey
 				}
 				if (payload) {
@@ -79,16 +78,17 @@ export class AssemblyWizardPanelProvider {
 				}
 			},
 			onWizardRequestedPreview: () => {
-				if (! panelKey) {
+				if (!panelKey) {
 					throw new Error('Calling onWizardRequestedPreview when panelKey is unknown')
 				}
 				let uri = vscode.Uri.parse(`${DockerfilePreviewProvider.scheme}://${panelKey}/Preview`)
-				vscode.workspace.openTextDocument(uri)
+				vscode.workspace
+					.openTextDocument(uri)
 					.then(async (doc) => {
 						await vscode.languages.setTextDocumentLanguage(doc, 'dockerfile')
 						return doc
 					})
-					.then(doc => {
+					.then((doc) => {
 						vscode.window.showTextDocument(doc, {
 							viewColumn: vscode.ViewColumn.Beside,
 							preview: true,
@@ -111,22 +111,25 @@ export class AssemblyWizardPanelProvider {
 					closeTabByUri(vscode.Uri.parse(`${DockerfilePreviewProvider.scheme}://${panelKey}/Preview`))
 
 					if (ghaCreate) {
-						const dotGithubDirectoryExist = await vscode.workspace.fs.stat(vscode.Uri.joinPath(folder, '.github')).then(()=>true, ()=>false)
-						if (! dotGithubDirectoryExist) {
+						const dotGithubDirectoryExist = await vscode.workspace.fs.stat(vscode.Uri.joinPath(folder, '.github')).then(
+							() => true,
+							() => false
+						)
+						if (!dotGithubDirectoryExist) {
 							await vscode.workspace.fs.createDirectory(vscode.Uri.joinPath(folder, '.github'))
 						}
-						const dotGithubWorkflowsDirectoryExist = await vscode.workspace.fs.stat(vscode.Uri.joinPath(folder, '.github', 'workflows')).then(()=>true, ()=>false)
-						if (! dotGithubWorkflowsDirectoryExist) {
+						const dotGithubWorkflowsDirectoryExist = await vscode.workspace.fs.stat(vscode.Uri.joinPath(folder, '.github', 'workflows')).then(
+							() => true,
+							() => false
+						)
+						if (!dotGithubWorkflowsDirectoryExist) {
 							await vscode.workspace.fs.createDirectory(vscode.Uri.joinPath(folder, '.github', 'workflows'))
 						}
 						await vscode.workspace.fs.writeFile(vscode.Uri.joinPath(folder, '.github', 'workflows', 'docker.yml'), new TextEncoder().encode(ghaDockerBuildWorkflowText))
 					}
 
 					const btnOpen = 'View Dockerfile'
-					vscode.window.showInformationMessage(
-						(dockerignoreUri ? 'Dockerfile and .dockerignore files saved' : 'Dockerfile saved'),
-						btnOpen
-					).then(btn => {
+					vscode.window.showInformationMessage(dockerignoreUri ? 'Dockerfile and .dockerignore files saved' : 'Dockerfile saved', btnOpen).then((btn) => {
 						if (btn == btnOpen) {
 							vscode.window.showTextDocument(dockerfileUri, { viewColumn: vscode.ViewColumn.Beside })
 						}
@@ -143,58 +146,63 @@ export class AssemblyWizardPanelProvider {
 		vscode.workspace.onDidChangeConfiguration(ifAffectsEditorSettingsThen(sendEditorSettings), null, disposables)
 
 		let prevVisible: boolean | undefined = undefined
-		panel.onDidChangeViewState((event) => {
-			if (event.webviewPanel.visible) {
-				if (prevVisible === false) {
-					prevVisible = true
-					messenger.ready(true, 'PROVIDER')
-					sendInitialPayloads()
+		panel.onDidChangeViewState(
+			(event) => {
+				if (event.webviewPanel.visible) {
+					if (prevVisible === false) {
+						prevVisible = true
+						messenger.ready(true, 'PROVIDER')
+						sendInitialPayloads()
+					}
+				} else {
+					prevVisible = false
+					messenger.ready(false, 'PROVIDER')
 				}
-			} else {
-				prevVisible = false
-				messenger.ready(false, 'PROVIDER')
-			}
-		}, null, disposables)
+			},
+			null,
+			disposables
+		)
 
-		panel.onDidDispose(() => {
-			if (panelKey) {
-				this.formResults.delete(panelKey)
-				this.eeDidChangeFormResult.fire(panelKey)
-				closeTabByUri(vscode.Uri.parse(`${DockerfilePreviewProvider.scheme}://${panelKey}/Preview`))
-			}
-			messenger.dispose()
-			while (disposables.length) {
-				disposables.pop()?.dispose()
-			}
-		}, null, disposables)
+		panel.onDidDispose(
+			() => {
+				if (panelKey) {
+					this.formResults.delete(panelKey)
+					this.eeDidChangeFormResult.fire(panelKey)
+					closeTabByUri(vscode.Uri.parse(`${DockerfilePreviewProvider.scheme}://${panelKey}/Preview`))
+				}
+				messenger.dispose()
+				while (disposables.length) {
+					disposables.pop()?.dispose()
+				}
+			},
+			null,
+			disposables
+		)
 
 		sendInitialPayloads()
 	}
 
 	public createWebviewPanel(folder: vscode.Uri): vscode.WebviewPanel {
-		const panel = vscode.window.createWebviewPanel(
-			'DockerfileWizard.AssemblyPanel',
-			'Dockerfile Wizard',
-			vscode.ViewColumn.One,
-			{ enableScripts: true, localResourceRoots: [vscode.Uri.joinPath(this.extensionUri, 'dist')], enableFindWidget: true }
-		)
+		const panel = vscode.window.createWebviewPanel('DockerfileWizard.AssemblyPanel', 'Dockerfile Wizard', vscode.ViewColumn.One, {
+			enableScripts: true,
+			localResourceRoots: [vscode.Uri.joinPath(this.extensionUri, 'dist')],
+			enableFindWidget: true,
+		})
 		panel.webview.html = this.getHtmlForWebview(panel.webview)
 		this.bootstrap(folder, panel)
 		return panel
 	}
 
 	private getHtmlForWebview(webview: vscode.Webview): string {
-		const cspHeader = `default-src 'self' ${webview.cspSource}; `
-						+ `style-src 'self' 'unsafe-inline' ${webview.cspSource}; `
-						+ `img-src 'self' data: ${webview.cspSource}; `
+		const cspHeader = `default-src 'self' ${webview.cspSource}; ` + `style-src 'self' 'unsafe-inline' ${webview.cspSource}; ` + `img-src 'self' data: ${webview.cspSource}; `
 		const styleHref = webview.asWebviewUri(vscode.Uri.joinPath(this.extensionUri, 'dist/assembly/style.css'))
 		const scriptHref = webview.asWebviewUri(vscode.Uri.joinPath(this.extensionUri, 'dist/assembly/index.iife.js'))
 		return [
 			'<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">',
 			'<meta name="viewport" content="width=device-width, initial-scale=1.0">',
-				`<meta content="${cspHeader}" http-equiv="Content-Security-Policy">`,
-				`<link href="${styleHref}" rel="stylesheet">`,
-				`<script defer src="${scriptHref}"></script>`,
+			`<meta content="${cspHeader}" http-equiv="Content-Security-Policy">`,
+			`<link href="${styleHref}" rel="stylesheet">`,
+			`<script defer src="${scriptHref}"></script>`,
 			'</head><body></body></html>',
 		].join('')
 	}
@@ -210,9 +218,9 @@ export class AssemblyWizardPanelProvider {
 function closeTabByUri(uri: vscode.Uri) {
 	for (let tabGroup of vscode.window.tabGroups.all) {
 		for (let tab of tabGroup.tabs) {
-			if (typeof tab.input == 'object' && ('uri' in tab.input) && tab.input.uri && tab.input.uri.toString() === uri.toString()) {
+			if (typeof tab.input == 'object' && 'uri' in tab.input && tab.input.uri && tab.input.uri.toString() === uri.toString()) {
 				vscode.window.tabGroups.close(tab)
-				break;
+				break
 			}
 		}
 	}

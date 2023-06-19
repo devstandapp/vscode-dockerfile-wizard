@@ -10,7 +10,7 @@ export const phpReport = writable<PhpLanguageReport | undefined>(undefined)
 export const jsReport = writable<JsLanguageReport | undefined>(undefined)
 export const containerReport = writable<ContainerLanguageReport | undefined>(undefined)
 
-export const detected: Readable<boolean|undefined> = derived(preflightReport, ($preflightReport)=> {
+export const detected: Readable<boolean | undefined> = derived(preflightReport, ($preflightReport) => {
 	if ($preflightReport === undefined) {
 		return undefined
 	} else if ($preflightReport && $preflightReport.primary !== undefined) {
@@ -21,10 +21,10 @@ export const detected: Readable<boolean|undefined> = derived(preflightReport, ($
 })
 
 setTimeout(() => {
-	extension.getRepositoryReport(!vscodeApi.getState()).then(repositoryReport => {
+	extension.getRepositoryReport(!vscodeApi.getState()).then((repositoryReport) => {
 		preflightReport.set(repositoryReport.preflight)
-		containerReport.set((repositoryReport.languages.find(report => report.language == 'container') as ContainerLanguageReport) || undefined)
-		phpReport.set((repositoryReport.languages.find(report => report.language == 'php') as PhpLanguageReport) || undefined)
-		jsReport.set((repositoryReport.languages.find(report => report.language == 'js') as JsLanguageReport) || undefined)
+		containerReport.set((repositoryReport.languages.find((report) => report.language == 'container') as ContainerLanguageReport) || undefined)
+		phpReport.set((repositoryReport.languages.find((report) => report.language == 'php') as PhpLanguageReport) || undefined)
+		jsReport.set((repositoryReport.languages.find((report) => report.language == 'js') as JsLanguageReport) || undefined)
 	})
 }, 5)

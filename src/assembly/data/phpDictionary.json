@@ -8,18 +8,7 @@
 			"phpBinaryPath": "/usr/bin/php82",
 			"apkUnitPackage": "unit-php82",
 			"unitVersion": "1.30",
-			"phpModulesBuiltin": [
-				"date",
-				"filter",
-				"hash",
-				"json",
-				"libxml",
-				"pcre",
-				"readline",
-				"reflection",
-				"spl",
-				"zlib"
-			],
+			"phpModulesBuiltin": ["date", "filter", "hash", "json", "libxml", "pcre", "readline", "reflection", "spl", "zlib"],
 			"phpPackagesAll": [
 				"php82-bcmath",
 				"php82-brotli",
@@ -113,18 +102,7 @@
 			"phpBinaryPath": "/usr/bin/php",
 			"apkUnitPackage": "unit-php81",
 			"unitVersion": "1.30",
-			"phpModulesBuiltin": [
-				"date",
-				"filter",
-				"hash",
-				"json",
-				"libxml",
-				"pcre",
-				"readline",
-				"reflection",
-				"spl",
-				"zlib"
-			],
+			"phpModulesBuiltin": ["date", "filter", "hash", "json", "libxml", "pcre", "readline", "reflection", "spl", "zlib"],
 			"phpPackagesAll": [
 				"php81-bcmath",
 				"php81-brotli",
@@ -222,18 +200,7 @@
 			"apkPhpPackage": "php81",
 			"apkUnitPackage": "unit-php81",
 			"unitVersion": "1.29",
-			"phpModulesBuiltin": [
-				"date",
-				"filter",
-				"hash",
-				"json",
-				"libxml",
-				"pcre",
-				"readline",
-				"reflection",
-				"spl",
-				"zlib"
-			],
+			"phpModulesBuiltin": ["date", "filter", "hash", "json", "libxml", "pcre", "readline", "reflection", "spl", "zlib"],
 			"phpPackagesAll": [
 				"php81-bcmath",
 				"php81-brotli",
@@ -328,18 +295,7 @@
 			"phpBinaryPath": "/usr/bin/php",
 			"apkUnitPackage": "unit-php8",
 			"unitVersion": "1.26",
-			"phpModulesBuiltin": [
-				"date",
-				"filter",
-				"hash",
-				"json",
-				"libxml",
-				"pcre",
-				"readline",
-				"reflection",
-				"spl",
-				"zlib"
-			],
+			"phpModulesBuiltin": ["date", "filter", "hash", "json", "libxml", "pcre", "readline", "reflection", "spl", "zlib"],
 			"phpPackagesAll": [
 				"php8-bcmath",
 				"php8-brotli",
@@ -438,17 +394,7 @@
 			"phpBinaryPath": "/usr/bin/php",
 			"apkUnitPackage": "unit-php7",
 			"unitVersion": "1.26",
-			"phpModulesBuiltin": [
-				"date",
-				"filter",
-				"hash",
-				"libxml",
-				"pcre",
-				"readline",
-				"reflection",
-				"spl",
-				"zlib"
-			],
+			"phpModulesBuiltin": ["date", "filter", "hash", "libxml", "pcre", "readline", "reflection", "spl", "zlib"],
 			"phpPackagesAll": [
 				"php7-bcmath",
 				"php7-brotli",

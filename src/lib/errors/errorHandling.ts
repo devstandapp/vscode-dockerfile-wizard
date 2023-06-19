@@ -5,7 +5,7 @@ export function normaliseErr(err: any): Error | object {
 			JSON.stringify(err) // checking here whether err can be stringified
 			return err
 		} catch (e) {
-			return new Error('un-stringify-able thrown object: { '+Object.getOwnPropertyNames(err).join(', ')+' }')
+			return new Error('un-stringify-able thrown object: { ' + Object.getOwnPropertyNames(err).join(', ') + ' }')
 		}
 	}
 	try {
@@ -15,7 +15,7 @@ export function normaliseErr(err: any): Error | object {
 	}
 }
 
-export function convertErrToPayload (err: any): string | object {
+export function convertErrToPayload(err: any): string | object {
 	let result = normaliseErr(err)
 	if (result instanceof Error && 'toJson' in result && typeof result['toJson'] == 'function') {
 		return (result['toJson'] as Function).apply(result)
@@ -26,11 +26,11 @@ export function convertErrToPayload (err: any): string | object {
 	}
 }
 
-export function convertPayloadToErr (err: string | object): Error | object {
+export function convertPayloadToErr(err: string | object): Error | object {
 	try {
 		if (typeof err == 'object' && err !== null) {
-			if ('name' in err && ('message' in err) && err['name'] == 'ValidationError') {
-				return new ValidationError((err['message'] as string), err['field'])
+			if ('name' in err && 'message' in err && err['name'] == 'ValidationError') {
+				return new ValidationError(err['message'] as string, err['field'])
 			} else {
 				return err
 			}
@@ -79,5 +79,5 @@ export class DetailedError extends Error {
 }
 
 export function shouldReportError(err: any) {
-	return ! (err instanceof ValidationError)
+	return !(err instanceof ValidationError)
 }

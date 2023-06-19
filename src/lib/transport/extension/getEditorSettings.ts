@@ -18,7 +18,7 @@ export function getEditorSettings(): EditorSettings {
 function actualLineHeight(fontSize: number, lineHeightSetting: number) {
 	let lineHeight: number, lineHeightFraction: number
 	if (lineHeightSetting < 8) {
-		lineHeightFraction = (lineHeightSetting == 0) ? 1.5 : lineHeightSetting
+		lineHeightFraction = lineHeightSetting == 0 ? 1.5 : lineHeightSetting
 		lineHeight = Math.round(fontSize * lineHeightFraction)
 	} else {
 		lineHeight = Math.round(lineHeightSetting)
@@ -30,19 +30,18 @@ function actualLineHeight(fontSize: number, lineHeightSetting: number) {
 export function ifAffectsEditorSettingsThen(callback: () => void) {
 	return (event: vscode.ConfigurationChangeEvent) => {
 		if (
-			event.affectsConfiguration('editor.fontSize')
-			|| event.affectsConfiguration('editor.lineHeight')
-			|| event.affectsConfiguration('editor.multiCursorModifier')
-			|| event.affectsConfiguration('workbench.colorTheme')
+			event.affectsConfiguration('editor.fontSize') ||
+			event.affectsConfiguration('editor.lineHeight') ||
+			event.affectsConfiguration('editor.multiCursorModifier') ||
+			event.affectsConfiguration('workbench.colorTheme')
 		) {
 			callback.call(null)
 		}
 	}
 }
 
-
 export function getThemeSettings(): ThemeSettings {
 	return {
-		kind: vscode.window.activeColorTheme.kind || 1
+		kind: vscode.window.activeColorTheme.kind || 1,
 	}
 }

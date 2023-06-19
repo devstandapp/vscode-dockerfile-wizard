@@ -50,7 +50,7 @@ export interface PreflightReport {
 
 export type PhpFramework = 'laravel' | 'lumen'
 
-export type PhpModule = { module: string, related: { dependency: string, note?: string }[] }
+export type PhpModule = { module: string; related: { dependency: string; note?: string }[] }
 
 export interface ContainerLanguageReport {
 	language: 'container'

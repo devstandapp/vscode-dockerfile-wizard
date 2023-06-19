@@ -14,8 +14,8 @@ export interface WritableArrayStore<T> {
 	add(value: T | undefined): void
 }
 
-export function arrayify<T>(store: Writable<T[]>): Writable<T[]> & ReadableArrayStore<T> & WritableArrayStore<T>;
-export function arrayify<T>(store: Readable<T[]>): Readable<T[]> & ReadableArrayStore<T>;
+export function arrayify<T>(store: Writable<T[]>): Writable<T[]> & ReadableArrayStore<T> & WritableArrayStore<T>
+export function arrayify<T>(store: Readable<T[]>): Readable<T[]> & ReadableArrayStore<T>
 export function arrayify<T>(store: Readable<T[]>) {
 	store['at'] = (index: number): T | undefined => get(store).at(index)
 	store['find'] = (predicate: (item: T) => unknown): T | undefined => get(store).find(predicate)
@@ -23,18 +23,18 @@ export function arrayify<T>(store: Readable<T[]>) {
 	store['filter'] = (predicate: (item: T) => unknown): T[] => get(store).filter(predicate)
 	store['includes'] = (value: T | undefined): boolean => get(store).includes(value)
 	if ('update' in store && typeof store.update == 'function') {
-		((writableStore)=>{
+		;((writableStore) => {
 			writableStore['delete'] = (value: T | undefined): void => {
 				if (value !== undefined && get(writableStore).includes(value)) {
-					writableStore.update(arr => {
+					writableStore.update((arr) => {
 						arr.splice(arr.indexOf(value), 1)
 						return arr
 					})
 				}
 			}
 			writableStore['add'] = (value: T | undefined): void => {
-				if (value !== undefined && ! get(writableStore).includes(value)) {
-					writableStore.update(arr => {
+				if (value !== undefined && !get(writableStore).includes(value)) {
+					writableStore.update((arr) => {
 						arr.push(value)
 						return arr
 					})

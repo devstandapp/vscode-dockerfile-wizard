@@ -21,8 +21,8 @@ class Messenger {
 		this.errorHandler = errorHandler
 	}
 
-	private sender: { postMessage:Function }
-	sendMessagesTo(sender: { postMessage:Function }) {
+	private sender: { postMessage: Function }
+	sendMessagesTo(sender: { postMessage: Function }) {
 		this.sender = sender
 	}
 
@@ -34,13 +34,14 @@ class Messenger {
 		if (message.is == 'void' && message.from === 'extension') {
 			this.facade[message.command].apply(this.facade, [message.payload])
 		} else if (message.is == 'request' && message.from === 'extension') {
-			this.facade[message.command].apply(this.facade, [message.payload])
-				.then(responseFromFacade => {
+			this.facade[message.command]
+				.apply(this.facade, [message.payload])
+				.then((responseFromFacade) => {
 					this.sender.postMessage({
 						is: 'response',
 						from: 'webview',
 						requestId: message.requestId,
-						payload: responseFromFacade
+						payload: responseFromFacade,
 					})
 				})
 				.catch((err: any) => {
