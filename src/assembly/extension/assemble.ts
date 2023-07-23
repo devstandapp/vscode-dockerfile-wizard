@@ -1,12 +1,11 @@
 import type { AssemblyFormResult } from '../sharedTypes'
+import { RUN } from './dockerfile-expressions'
 
 // TODO check if package.json and package-lock.json both exist
 
 export function assemble(d: AssemblyFormResult): string {
 
 const unitVestion: number = parseFloat(d.baseImage.unitVersion)
-
-const symlinkPhpBinary = d.baseImage.phpBinaryPath.match(/\/php[^\/]{1,}$/g) ? `&& ln -s ${d.baseImage.phpBinaryPath} ${d.baseImage.phpBinaryPath.replace(/\/php[^\/]{1,}$/g, '/php')} \\` : undefined
 
 return `# syntax=docker/dockerfile:1
 ${d.jsBuildStage ? `
@@ -33,12 +32,13 @@ WORKDIR /dist
 ENV COMPOSER_HOME="/composer" PATH="/composer/vendor/bin:$PATH" COMPOSER_NO_INTERACTION="1" COMPOSER_ALLOW_SUPERUSER="1"
 COPY --from=composer/composer:2-bin /composer /usr/local/bin/composer
 
-RUN apk add --no-cache \\
-		${ d.phpPackagesToInstall.join(' \\\n\t\t') } \\
-		${ d.serverPackagesToInstall.join(' \\\n\t\t') } \\${symlinkPhpBinary ? '\n\t'+symlinkPhpBinary : ''}
-	&& adduser -D -u 1001 -G root -h /appuser appuser \\
-	&& mkdir -p /unit/run /unit/state /unit/state/certs /unit/tmp \\
-	&& find /appuser /unit -exec chown -R appuser:root {} \\; -exec chmod -R g+rwX {} \\;
+${RUN([
+	[`apk add --no-cache`, ...d.phpPackagesToInstall, ...d.serverPackagesToInstall],
+	(d.baseImage.phpBinaryPath.match(/\/php[^\/]{1,}$/g) ? `ln -s ${d.baseImage.phpBinaryPath} ${d.baseImage.phpBinaryPath.replace(/\/php[^\/]{1,}$/g, '/php')}` : undefined),
+	`adduser -D -u 1001 -G root -h /appuser appuser`,
+	`mkdir -p /unit/run /unit/state /unit/state/certs /unit/tmp`,
+	`find /appuser /unit -exec chown -R appuser:root {} \\; -exec chmod -R g+rwX {} \\;`,
+])}
 
 EXPOSE ${d.serverPort}
 
@@ -114,9 +114,13 @@ ${
 		? d.jsOutPaths.map(path => `COPY --from=stage-npm /dist/${path} ./${path}`).join('\n')  : ''
 }
 
-RUN composer dump-autoload --no-dev --optimize${ d.writablePaths.length ? ' \\' : '' }
-${ d.writablePaths.length ? `\t&& find ${ d.writablePaths.map(path => `./${path}`).join(' ') } \\
-		-exec chown -R appuser:root {} \\; -exec chmod -R g+rwX {} \\;` : '' }
+${RUN([
+	`composer dump-autoload --no-dev --optimize`,
+	(d.writablePaths.length > 0 && [
+		`find ${ d.writablePaths.map(path => `./${path}`).join(' ') }`,
+		`-exec chown -R appuser:root {} \\; -exec chmod -R g+rwX {} \\;`
+	])
+])}
 
 ARG IMAGE_VERSION
 ENV IMAGE_VERSION $IMAGE_VERSION
