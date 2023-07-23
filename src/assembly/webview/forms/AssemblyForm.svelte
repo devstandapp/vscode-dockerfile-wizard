@@ -1,50 +1,36 @@
 <script lang="ts">
-    import { baseImage } from '../stores/form.store'
-    import { phpReport, jsReport, containerReport } from '../stores/report.store'
+	import { baseImage } from '../stores/form.store'
+	import { phpReport, jsReport, containerReport } from '../stores/report.store'
 
-    import BaseImageForm from './BaseImageForm.svelte'
-    import PhpModulesForm from './PhpModulesForm.svelte'
-    import PhpSourcesForm from './PhpSourcesForm.svelte'
-    import WritablePathsForm from './WritablePathsForm.svelte'
-    import DockerIgnoreForm from './DockerIgnoreForm.svelte'
-    import JsSourcesForm from './JsSourcesForm.svelte'
-    import WebServerForm from './WebServerForm.svelte'
-
+	import BaseImageForm from './BaseImageForm.svelte'
+	import PhpModulesForm from './PhpModulesForm.svelte'
+	import PhpSourcesForm from './PhpSourcesForm.svelte'
+	import WritablePathsForm from './WritablePathsForm.svelte'
+	import DockerIgnoreForm from './DockerIgnoreForm.svelte'
+	import JsSourcesForm from './JsSourcesForm.svelte'
+	import WebServerForm from './WebServerForm.svelte'
 </script>
 
 <div class="flex flex-col">
+	<BaseImageForm />
 
-    <BaseImageForm />
+	{#if $baseImage !== undefined}
+		{#if $phpReport !== undefined}
+			<PhpModulesForm />
 
-    {#if $baseImage !== undefined}
+			<WebServerForm />
 
-        {#if $phpReport !== undefined}
+			<PhpSourcesForm />
+		{/if}
 
-            <PhpModulesForm />
+		{#if $jsReport !== undefined}
+			<JsSourcesForm />
+		{/if}
 
-            <WebServerForm />
+		<WritablePathsForm />
 
-            <PhpSourcesForm />
-
-        {/if}
-
-
-        {#if $jsReport !== undefined}
-
-            <JsSourcesForm />
-
-        {/if}
-
-
-        <WritablePathsForm />
-
-
-        {#if $containerReport !== undefined}
-
-            <DockerIgnoreForm />
-
-        {/if}
-
-    {/if}
-
+		{#if $containerReport !== undefined}
+			<DockerIgnoreForm />
+		{/if}
+	{/if}
 </div>

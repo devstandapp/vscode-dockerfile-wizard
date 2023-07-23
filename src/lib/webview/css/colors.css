@@ -1,18 +1,18 @@
 :root {
 
-    --defaultFg: var(--vscode-editor-foreground);
-    --defaultBg: var(--vscode-editor-background);
+	--defaultFg: var(--vscode-editor-foreground);
+	--defaultBg: var(--vscode-editor-background);
 
-    --borderColor: var(--vscode-input-border, var(--vscode-scrollbarSlider-background));
+	--borderColor: var(--vscode-input-border, var(--vscode-scrollbarSlider-background));
 
-    --gridDotColor:  var(--vscode-editorLineNumber-foreground);
+	--gridDotColor:  var(--vscode-editorLineNumber-foreground);
 
-    --attachingLineColor: var(--vscode-badge-background);
+	--attachingLineColor: var(--vscode-badge-background);
 
-    --dimmedFg: var(--vscode-gitDecoration-ignoredResourceForeground);
+	--dimmedFg: var(--vscode-gitDecoration-ignoredResourceForeground);
 
-    --accent-01: var(--vscode-inputValidation-infoBackground);
-    --accent-02: var(--vscode-inputOption-activeBackground);
+	--accent-01: var(--vscode-inputValidation-infoBackground);
+	--accent-02: var(--vscode-inputOption-activeBackground);
 }
 
 .fg-grid                    { color: var(--gridDotColor); }
