@@ -9,9 +9,9 @@
 	</div>
 	<div class="color-dimmed sans-lh">
 		Dockerfile Wizard currently supports PHP language and Laravel framework. If there's a specific language or framework you'd like to prioritize in the roadmap, please
-		<a href="https://github.com/scaleofone/vscode-dockerfile-wizard/issues" class="hover:color-link focus:outline underline">create a GitHub issue</a>
+		<a href="https://github.com/devstandapp/vscode-dockerfile-wizard/issues" class="hover:color-link focus:outline underline">create a GitHub issue</a>
 		or
-		<a href="https://github.com/scaleofone/vscode-dockerfile-wizard/labels/support-new-framework" class="hover:color-link focus:outline underline">upvote an existing one</a>
+		<a href="https://github.com/devstandapp/vscode-dockerfile-wizard/labels/support-new-framework" class="hover:color-link focus:outline underline">upvote an existing one</a>
 		.
 		<br />
 		Your feedback and suggestions are highly appreciated.

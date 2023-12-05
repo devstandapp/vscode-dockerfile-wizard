@@ -1,7 +1,7 @@
 {
 	"name": "vscode-dockerfile-wizard",
 	"displayName": "Dockerfile Wizard",
-	"publisher": "scaleofone",
+	"publisher": "devstand",
 	"version": "0.1.0",
 	"description": "Visually design and fine tune a production-ready Dockerfile",
 	"type": "module",
@@ -11,7 +11,7 @@
 	},
 	"license": "Apache-2.0",
 	"author": {
-		"email": "max@scaleofone.com",
+		"email": "max@devstand.app",
 		"name": "Maksim Pshenichnikov"
 	},
 	"icon": "dist/icon-256x256.png",
@@ -21,11 +21,11 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/scaleofone/vscode-dockerfile-wizard.git"
+		"url": "https://github.com/devstandapp/vscode-dockerfile-wizard.git"
 	},
 	"bugs": {
-		"email": "max@scaleofone.com",
-		"url": "https://github.com/scaleofone/vscode-dockerfile-wizard/issues"
+		"email": "max@devstand.app",
+		"url": "https://github.com/devstandapp/vscode-dockerfile-wizard/issues"
 	},
 	"contributes": {
 		"commands": [
